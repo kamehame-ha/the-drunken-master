@@ -4,6 +4,8 @@
 
 #include "Game.h"
 
+#include "Window.h"
+
 //////////// Lifecycle values ////////////
 
 // Those values are grouped using a simple method <some-text>_<number>
@@ -51,17 +53,11 @@ Game::Game() {
 }
 
 void Game::run() {
-        // Base window
-    auto window = sf::RenderWindow(
-        sf::VideoMode({1024, 768}),
-        "The Drunken Master",
-        sf::Style::Default,
-        sf::State::Windowed,
-        sf::ContextSettings({.antiAliasingLevel = 6})
-    );
+    auto windowSize = sf::Vector2u(1024, 768);
+    auto window = Window(sf::VideoMode(windowSize), "Drunken Master").create();
 
-    window.setMinimumSize(sf::Vector2u(1024, 768));
-    window.setMaximumSize(sf::Vector2u(1024, 768));
+    window.setMinimumSize(windowSize);
+    window.setMaximumSize(windowSize);
 
     // Title menu image
     sf::Texture title_menu_texture;
@@ -112,10 +108,24 @@ void Game::run() {
                 "Menu Back - Backspace",
                 "Interaction - E"
             };
+
+            auto text_vector = std::vector<sf::Text>{};
+
+            auto text = Text(window);
+
+            text.setFontPath(pp_regular);
+            text.setFont(sf::Font());
+
+            for (const std::string& t : text_lines) {
+                auto line = text.createText();
+                line.setString(t);
+                text_vector.push_back(line);
+            }
+
+            text.renderText(text.centerTextLines(text_vector));
         }
 
         // Display
         window.display();
     }
-    return 0;
 }
