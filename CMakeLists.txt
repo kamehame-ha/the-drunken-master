@@ -27,5 +27,15 @@ add_executable(drunken-master main.cpp
         src/Game.h
         src/Text.cpp
         src/Text.h
+        src/Window.cpp
+        src/Window.h
+        src/utils/GameState.cpp
+        src/utils/GameState.h
+        src/MainMenu.cpp
+        src/MainMenu.h
+        src/Player.cpp
+        src/Player.h
+        src/Hitbox.cpp
+        src/Hitbox.h
 )
 target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
