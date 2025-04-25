@@ -4,7 +4,7 @@
 
 #include "Game.h"
 
-#include "Window.h"
+#include "utils/Window.h"
 
 //////////// Lifecycle values ////////////
 

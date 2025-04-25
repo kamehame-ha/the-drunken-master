@@ -5,7 +5,7 @@
 #ifndef WRAPPER_H
 #define WRAPPER_H
 
-#include <SFML/Graphics.hpp>
+#include <../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics.hpp>
 #include <iostream>
 
 class Wrapper {

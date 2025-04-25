@@ -2,7 +2,7 @@
 // Created by mrlek on 25.04.2025.
 //
 
-#include "Window.h"
+#include "../Window.h"
 
 Window::Window(const sf::VideoMode video_mode, const std::string &title) {
     this->video_mode = video_mode;

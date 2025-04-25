@@ -21,14 +21,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(fmt)
 add_executable(drunken-master main.cpp
-        src/Wrapper.cpp
-        src/Wrapper.h
+        src/utils/Wrapper.cpp
+        src/utils/Wrapper.h
         src/Game.cpp
         src/Game.h
-        src/Text.cpp
-        src/Text.h
-        src/Window.cpp
-        src/Window.h
+        src/utils/Text.cpp
+        src/utils/Text.h
+        src/utils/Window.cpp
+        src/utils/Window.h
         src/utils/GameState.cpp
         src/utils/GameState.h
         src/MainMenu.cpp

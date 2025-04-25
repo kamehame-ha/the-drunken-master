@@ -5,8 +5,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "Wrapper.h"
-#include "Text.h"
+#include "utils/Wrapper.h"
+#include "utils/Text.h"
 #include "Player.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
