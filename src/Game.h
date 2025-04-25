@@ -19,9 +19,7 @@
 
 class Game {
 public:
-    Game() {
-
-    }
+    Game();
     auto run() -> void;
 };
 
