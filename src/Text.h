@@ -20,8 +20,8 @@ private:
     int gap; // 10
     Wrapper wrapper;
 
-    auto center_even(const std::vector<sf::Text> &vector) -> void;
-    auto center_not_even(const std::vector<sf::Text> &vector) -> void;
+    auto center_even(std::vector<sf::Text> &vector) -> void;
+    auto center_not_even(std::vector<sf::Text> &vector) -> void;
 
 public:
     explicit Text(sf::RenderWindow &window);

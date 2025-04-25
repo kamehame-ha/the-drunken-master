@@ -8,7 +8,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
-Text::Text(sf::RenderWindow &window) : window(&window), wrapper() {
+Text::Text(sf::RenderWindow &window) : window(&window), wrapper(window) {
     this->window = &window;
     this->text_size = 24;
     this->gap = 10;
@@ -16,11 +16,11 @@ Text::Text(sf::RenderWindow &window) : window(&window), wrapper() {
     this->font = sf::Font();
 }
 
-auto Text::center_even(const std::vector<sf::Text> &vector) {
+auto Text::center_even(std::vector<sf::Text> &vector) -> void {
     auto [top, bottom] = std::make_pair((vector.size() / 2) - 1, vector.size() / 2);
 
     for (int i = 0; i < vector.size(); i++) {
-        sf::Text line = vector[i];
+        sf::Text &line = vector[i];
 
         auto [x, y] = wrapper.center(line);
 
@@ -39,11 +39,11 @@ auto Text::center_even(const std::vector<sf::Text> &vector) {
     }
 }
 
-auto Text::center_not_even(const std::vector<sf::Text> &vector) {
+auto Text::center_not_even(std::vector<sf::Text> &vector) -> void {
     const int center_line_index = int(vector.size() / 2);
 
     for (int i = 0; i < vector.size(); i++) {
-        sf::Text line = vector[i];
+        sf::Text &line = vector[i];
 
         auto [x, y] = wrapper.center(line);
 
