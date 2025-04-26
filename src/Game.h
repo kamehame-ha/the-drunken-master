@@ -7,6 +7,7 @@
 
 #include "utils/Wrapper.h"
 #include "utils/Text.h"
+#include "utils/Window.h"
 #include "Player.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -18,9 +19,13 @@
 #include <string>
 
 class Game {
+private:
+    sf::Vector2u windowSize;
+
 public:
     Game();
-    auto run() -> void;
+    auto run() const -> void;
+
 };
 
 

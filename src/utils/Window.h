@@ -5,7 +5,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <string>
 
 
