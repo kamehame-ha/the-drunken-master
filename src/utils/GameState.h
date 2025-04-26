@@ -12,11 +12,14 @@ public:
         MAIN_MENU,
         MAIN_MENU_SELECT
     };
+
+    explicit GameState(State state);
+
     auto static setState(State state) -> void;
     auto static getState() -> State;
 
 private:
-    static State &state;
+    static State state;
 };
 
 
