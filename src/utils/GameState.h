@@ -13,13 +13,12 @@ public:
         MAIN_MENU_SELECT
     };
 
+    static State state;
+
     explicit GameState(State state);
 
     auto static setState(State state) -> void;
     auto static getState() -> State;
-
-private:
-    static State state;
 };
 
 
