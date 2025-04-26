@@ -17,6 +17,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "utils/GameState.h"
 
 class Game {
 private:
@@ -25,7 +26,6 @@ private:
 public:
     Game();
     auto run() const -> void;
-
 };
 
 
