@@ -46,13 +46,14 @@ void Game::run() const {
 
     window.setIcon(icon);
 
-    MainMenu main_menu(window, GameState::State::MAIN_MENU);
+    MainMenu main_menu;
     main_menu.init();
 
     main_menu.title_menu_music.play();
 
-    // Base clock
-    sf::Clock clock;
+    auto delay = Delay();
+
+    delay.start(5.0f);
 
     // Main while loop, centerpiece of program life
     while (window.isOpen()) {
@@ -71,7 +72,7 @@ void Game::run() const {
         window.clear(sf::Color(0x121212));
 
         // Title menu life cycle start
-        window.draw(main_menu.title_menu_sprite);
+        main_menu.start(window, delay);
 
         // Display
         window.display();
