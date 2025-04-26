@@ -8,14 +8,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <string>
-#include "utils/GameState.h"
+#include "Game.h"
+
+#include "utils/Delay.h"
 
 
 class MainMenu {
 private:
-    sf::RenderWindow window;
-    GameState::State state;
-
     std::string title_menu_texture_path;
     std::string title_menu_music_path;
     sf::Texture title_menu_texture;
@@ -24,8 +23,9 @@ public:
     sf::Sprite title_menu_sprite = sf::Sprite(title_menu_texture);
     sf::Music title_menu_music = sf::Music();
 
-    explicit MainMenu(sf::RenderWindow &window, GameState::State state);
+    explicit MainMenu();
     auto init() -> void;
+    auto start(sf::RenderWindow &window, Delay &delay) -> void;
 };
 
 

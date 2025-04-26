@@ -4,7 +4,7 @@
 
 #include "MainMenu.h"
 
-MainMenu::MainMenu(sf::RenderWindow &window, GameState::State state): window(), state() {
+MainMenu::MainMenu() {
     title_menu_texture_path = "../../assets/textures/drunken-master-game-art.png";
     title_menu_music_path = "../../assets/music/gooffy-ass-pokemon-theme.mp3";
 }
@@ -22,6 +22,20 @@ auto MainMenu::init() -> void {
     // Load music
     if (!title_menu_music.openFromFile(title_menu_music_path)) {
         throw std::runtime_error("Error loading music");
+    }
+}
+
+auto MainMenu::start(sf::RenderWindow &window, Delay &delay) -> void {
+    if (GameState::state != GameState::State::MAIN_MENU) return;
+
+    window.draw(title_menu_sprite);
+
+    if (delay.isDone()) {
+        GameState::setState(GameState::State::MAIN_MENU_SELECT);
+    }
+
+    if (GameState::state == GameState::State::MAIN_MENU_SELECT) {
+        window.clear(sf::Color(0x121212));
     }
 }
 
