@@ -37,7 +37,6 @@ add_executable(drunken-master main.cpp
         src/Player.h
         src/Hitbox.cpp
         src/Hitbox.h
-        src/utils/Delay.cpp
         src/utils/Delay.h
 )
 target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
