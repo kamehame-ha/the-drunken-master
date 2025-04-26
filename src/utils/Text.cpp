@@ -2,11 +2,11 @@
 // Created by kame on 4/25/25.
 //
 
-#include "../Text.h"
+#include "Text.h"
 #include <vector>
 #include "Wrapper.h"
 #include <string>
-#include <../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 Text::Text(sf::RenderWindow &window) : window(&window), wrapper(window) {
     this->window = &window;

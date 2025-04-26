@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <string>
-#include <../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "Wrapper.h"
 

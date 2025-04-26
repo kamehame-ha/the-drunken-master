@@ -3,7 +3,6 @@
 //
 
 #include "Wrapper.h"
-#include <../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics.hpp>
 
 Wrapper::Wrapper(sf::RenderWindow &window) : window(&window) {
     this->window = &window;
