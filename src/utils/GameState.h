@@ -10,7 +10,8 @@ class GameState {
 public:
     enum State {
         MAIN_MENU,
-        MAIN_MENU_SELECT
+        MAIN_MENU_SELECT,
+        GAME
     };
 
     static State state;
