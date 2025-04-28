@@ -6,18 +6,6 @@
 
 #include "MainMenu.h"
 
-//////////// Lifecycle values ////////////
-
-// Those values are grouped using a simple method <some-text>_<number>
-// By overwriting any group of values, leaving one true and the rest false
-// should allow easy debug/presentation of every aspect of the game.
-// Comments after each value is just simple explanation for what moment of
-// the lifecycle it is needed
-
-bool main_menu_stage_one = true; // Content such as music and basic sprite is loaded
-bool main_menu_stage_two = false; //
-bool main_menu_stage_three = false;
-
 //////////// Font paths ////////////
 
 std::string pp_light = "../../assets/fonts/Poppins-Light.ttf";
@@ -52,7 +40,6 @@ void Game::run() const {
     main_menu.title_menu_music.play();
 
     auto delay = Delay();
-
     delay.start(5.0f);
 
     // Main while loop, centerpiece of program life
@@ -73,6 +60,10 @@ void Game::run() const {
 
         // Title menu life cycle start
         main_menu.start(window, delay);
+
+        if (GameState::state == GameState::State::GAME) {
+            // Main Game Loop
+        }
 
         // Display
         window.display();
