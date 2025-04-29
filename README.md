@@ -13,6 +13,6 @@ As im not a legal owner of some music/graphics i will put credits below
 
 | Main Menu music                                      | Graphics        |
 | ---------------------------------------------------- | --------------- |
-| Pokemon Fire/Red Sound Track (Modified with effects) | Me              |
+| Pokemon Fire/Red Sound Track (Modified with effects) | Me (for now)    |
 
 Going back to a license game is completely **open-source** and **free to use/download/remix** as long as the link to this repo is present on wherever you're posting your remix
