@@ -7,3 +7,12 @@ Drunken master is a platform game with turn based fighting, as a fan of retro ga
 ### Project features
 - GameSave System
 - Possibly level/enemy generator for endless gameplay
+
+### Legal & license
+As im not a legal owner of some music/graphics i will put credits below
+
+| Main Menu music                                      | Graphics        |
+| ---------------------------------------------------- | --------------- |
+| Pokemon Fire/Red Sound Track (Modified with effects) | Me              |
+
+Going back to a license game is completely open-source
