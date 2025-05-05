@@ -18,7 +18,6 @@ private:
     std::string title_menu_texture_path;
     std::string title_menu_music_path;
     sf::Texture title_menu_texture;
-    bool once;
 
 public:
     sf::Sprite title_menu_sprite = sf::Sprite(title_menu_texture);
