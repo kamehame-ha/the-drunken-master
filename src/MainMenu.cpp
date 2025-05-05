@@ -7,6 +7,7 @@
 MainMenu::MainMenu() {
     title_menu_texture_path = "../../assets/textures/drunken-master-game-art.png";
     title_menu_music_path = "../../assets/music/gooffy-ass-pokemon-theme.mp3";
+    once = true;
 }
 
 auto MainMenu::init() -> void {
@@ -26,7 +27,7 @@ auto MainMenu::init() -> void {
 }
 
 auto MainMenu::start(sf::RenderWindow &window, Delay &delay) -> void {
-    if (GameState::state != GameState::State::MAIN_MENU) return;
+    if (GameState::getState() != GameState::State::MAIN_MENU) return;
 
     window.draw(title_menu_sprite);
 
@@ -34,8 +35,12 @@ auto MainMenu::start(sf::RenderWindow &window, Delay &delay) -> void {
         GameState::setState(GameState::State::MAIN_MENU_SELECT);
     }
 
-    if (GameState::state == GameState::State::MAIN_MENU_SELECT) {
+    if (GameState::getState() == GameState::State::MAIN_MENU_SELECT) {
         window.clear(sf::Color(0x121212));
+
+        // Main menu select logic
+
+        GameState::setState(GameState::State::GAME);
     }
 }
 

@@ -4,8 +4,6 @@
 
 #include "Game.h"
 
-#include "MainMenu.h"
-
 //////////// Font paths ////////////
 
 std::string pp_light = "../../assets/fonts/Poppins-Light.ttf";
@@ -23,8 +21,16 @@ Game::Game() {
 
 void Game::run() const {
     Game();
+
     auto window = Window(sf::VideoMode(windowSize), "Drunken Master").create();
     window.setFramerateLimit(60);
+
+    auto wrapper = Wrapper(window);
+
+    auto player = Player(100, 10, std::string("Player"));
+    player.create();
+    auto [x,y] = wrapper.center(player.getShape());
+    player.getShape().setPosition(sf::Vector2f(x, y));
 
     sf::Image icon;
 
@@ -42,18 +48,33 @@ void Game::run() const {
     auto delay = Delay();
     delay.start(5.0f);
 
+    sf::Clock clock;
+
     // Main while loop, centerpiece of program life
     while (window.isOpen()) {
+        float deltaTime = clock.restart().asSeconds();
+
         // Key/Button/Mouse events
         while (const auto event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
-            } else if (auto key = event->getIf<sf::Event::KeyPressed>()) {
-                if (key->code == sf::Keyboard::Key::Enter) {
+            }
 
+            if (GameState::getState() == GameState::State::GAME) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+                    player.move(Player::moveType::LEFT);
+                }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+                    player.move(Player::moveType::RIGHT);
+                }
+
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+                    player.move(Player::moveType::UP);
                 }
             }
         }
+
+        player.update(deltaTime);
 
         // Set default background color
         window.clear(sf::Color(0x121212));
@@ -61,8 +82,8 @@ void Game::run() const {
         // Title menu life cycle start
         main_menu.start(window, delay);
 
-        if (GameState::state == GameState::State::GAME) {
-            // Main Game Loop
+        if (GameState::getState() == GameState::State::GAME) {
+            window.draw(player.getShape());
         }
 
         // Display

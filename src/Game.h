@@ -18,6 +18,8 @@
 #include <vector>
 #include <string>
 #include "utils/GameState.h"
+#include "MainMenu.h"
+#include "Player.h"
 
 class Game {
 private:

@@ -24,3 +24,4 @@ auto Wrapper::center(auto item) -> std::pair<float, float> {
 
 template std::pair<float, float> Wrapper::center<sf::Text>(sf::Text);
 template std::pair<float, float> Wrapper::center<sf::Sprite>(sf::Sprite);
+template std::pair<float, float> Wrapper::center<sf::CircleShape>(sf::CircleShape);
