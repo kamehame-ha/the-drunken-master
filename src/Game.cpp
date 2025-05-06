@@ -16,7 +16,7 @@ std::string pp_black = "../../assets/fonts/Poppins-Black.ttf";
 std::string pp_italic = "../../assets/fonts/Poppins-Italic.ttf";
 
 Game::Game() {
-    this->windowSize = sf::Vector2u(1024, 768);
+    windowSize = sf::Vector2u(1024, 768);
 }
 
 void Game::run() const {

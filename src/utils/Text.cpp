@@ -10,10 +10,10 @@
 
 Text::Text(sf::RenderWindow &window) : window(&window), wrapper(window) {
     this->window = &window;
-    this->text_size = 24;
-    this->gap = 10;
-    this->wrapper = Wrapper(window);
-    this->font = sf::Font();
+    text_size = 24;
+    gap = 10;
+    wrapper = Wrapper(window);
+    font = sf::Font();
 }
 
 auto Text::center_even(std::vector<sf::Text> &vector) -> void {
@@ -61,22 +61,22 @@ auto Text::center_not_even(std::vector<sf::Text> &vector) -> void {
 }
 
 auto Text::renderText(const sf::Text &text) const -> void {
-    this->window->draw(text);
+    window->draw(text);
 }
 
 auto Text::renderText(const std::vector<sf::Text> &vector) const -> void {
     for (const auto &text : vector) {
-        this->window->draw(text);
+        window->draw(text);
     }
 }
 
 
 auto Text::createText() -> sf::Text {
-    if (!this->font.openFromFile(this->font_path)) {
+    if (!font.openFromFile(font_path)) {
         throw std::runtime_error("Failed to load font");
     }
 
-    return sf::Text(this->font);
+    return sf::Text(font);
 }
 
 auto Text::centerTextLines(std::vector<sf::Text> &vector) -> std::vector<sf::Text> {
@@ -98,25 +98,25 @@ auto Text::setFontPath(const std::string &font_path) -> void {
 }
 
 auto Text::setTextSize(const int size) -> void {
-    this->text_size = size;
+    text_size = size;
 }
 
 auto Text::setGap(const int size) -> void {
-    this->gap = size;
+    gap = size;
 }
 
 auto Text::getFont() -> sf::Font {
-    return this->font;
+    return font;
 }
 
 auto Text::getFontPath() -> std::string {
-    return this->font_path;
+    return font_path;
 }
 
 auto Text::getTextSize() const -> int {
-    return this->text_size;
+    return text_size;
 }
 
 auto Text::getGap() const -> int {
-    return this->gap;
+    return gap;
 }

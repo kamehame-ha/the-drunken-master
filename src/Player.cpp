@@ -4,6 +4,7 @@
 
 #include "Player.h"
 
+#include "Hitbox.h"
 #include "fmt/printf.h"
 
 Player::Player(int hp, int ad, const std::string &name) {
@@ -11,20 +12,20 @@ Player::Player(int hp, int ad, const std::string &name) {
     this->ad = ad;
     this->name = name;
 
-    this->moveSpeed = 300.f;  // Pixels per second
-    this->velocityX = 0.f;
-    this->velocityY = 0.f;
-    this->gravity = 1000.f;
+    moveSpeed = 300.f;  // Pixels per second
+    velocityX = 0.f;
+    velocityY = 0.f;
+    gravity = 1000.f;
 }
 
 auto Player::create() -> void {
     const sf::CircleShape c(25.0f);
-    this->shape = c;
-    this->shape.setFillColor(sf::Color::White);
+    shape = c;
+    shape.setFillColor(sf::Color::White);
 }
 
 auto Player::getShape() -> sf::CircleShape {
-    return this->shape;
+    return shape;
 }
 
 auto Player::move(moveType type) -> void {
@@ -48,20 +49,36 @@ auto Player::walkLeft() -> void {
 
 auto Player::jump() -> void {
     velocityY = -600.f;
+    Hitbox::onGround = false;
 }
 
 auto Player::dropdown() -> void {
 
 }
 
+auto Player::stopX() -> void {
+    velocityX = 0.f;
+}
+
+auto Player::stopY() -> void {
+    velocityY = 0.f;
+}
+
+
 // Add the update method:
 auto Player::update(float deltaTime) -> void {
+    if (!Hitbox::onGround) {
+        velocityY += gravity * deltaTime;
+    }
+
     // Apply friction when no input
     if (velocityX > 0) {
         velocityX = std::max(0.0f, velocityX - moveSpeed * 2 * deltaTime);
     } else if (velocityX < 0) {
         velocityX = std::min(0.0f, velocityX + moveSpeed * 2 * deltaTime);
     }
+
+    movement = sf::Vector2f(velocityX * deltaTime, velocityY * deltaTime);
 
     // Update position
     sf::Vector2f newPos = shape.getPosition();
