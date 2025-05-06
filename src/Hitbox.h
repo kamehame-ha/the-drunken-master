@@ -6,17 +6,18 @@
 #define HITBOX_H
 
 #include <SFML/Graphics.hpp>
-#include "Player.h"
 
+class Player;
 
 class Hitbox {
 private:
     sf::RenderWindow* window;
+    Player* player;
 
 public:
-    explicit Hitbox(sf::RenderWindow &window);
+    explicit Hitbox(sf::RenderWindow &window, Player &player);
 
-    auto check(auto item) -> void;
+    auto check() const -> void;
 };
 
 
