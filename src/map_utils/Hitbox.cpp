@@ -51,3 +51,8 @@ auto Hitbox::check() const -> void {
         player->setPosition(newX, newY);
     }
 }
+
+auto Hitbox::check(Map &map) const -> void {
+
+}
+

@@ -103,6 +103,13 @@ void Game::run() const {
 
         if (g_state.getState() == GameState::State::GAME) {
             window.draw(player.getShape());
+
+            Element el = Element(window, player);
+            el.create();
+
+            el.getShape().setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 + 250));
+            window.draw(el.getShape());
+            el.checkCollision();
         }
 
         // Display

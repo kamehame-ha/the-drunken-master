@@ -4,11 +4,24 @@
 
 #ifndef GROUND_H
 #define GROUND_H
+#include "Element.h"
 
 
 
-class Ground {
+class Ground : public Element {
+private:
+    sf::RectangleShape shape;
 
+public:
+    Ground();
+
+    void create() {
+
+    }
+
+    sf::RectangleShape& getShape() {
+
+    }
 };
 
 

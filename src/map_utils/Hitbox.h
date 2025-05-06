@@ -6,6 +6,7 @@
 #define HITBOX_H
 
 #include <SFML/Graphics.hpp>
+#include "Map.h"
 
 class Player;
 
@@ -18,6 +19,7 @@ public:
     explicit Hitbox(sf::RenderWindow &window, Player &player);
 
     auto check() const -> void;
+    auto check(Map &map) const -> void;
 };
 
 
