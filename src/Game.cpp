@@ -22,6 +22,9 @@ Game::Game() {
 void Game::run() const {
     Game();
 
+    // Set gamestate to GAME for game logic testing
+    auto g_state = GameState(GameState::State::GAME);
+
     auto window = Window(sf::VideoMode(windowSize), "Drunken Master").create();
     window.setFramerateLimit(60);
 
@@ -31,6 +34,8 @@ void Game::run() const {
     player.create();
     auto [x,y] = wrapper.center(player.getShape());
     player.getShape().setPosition(sf::Vector2f(x, y));
+
+    auto hitbox = Hitbox(window, player);
 
     sf::Image icon;
 
@@ -43,7 +48,9 @@ void Game::run() const {
     MainMenu main_menu;
     main_menu.init();
 
-    main_menu.title_menu_music.play();
+    if (g_state.getState() == GameState::State::MAIN_MENU) {
+        main_menu.title_menu_music.play();
+    }
 
     auto delay = Delay();
     delay.start(5.0f);
@@ -60,21 +67,33 @@ void Game::run() const {
                 window.close();
             }
 
-            if (GameState::getState() == GameState::State::GAME) {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+            // Handle key releases
+            if (const auto* keyPressed = event->getIf<sf::Event::KeyReleased>()) {
+                player.handleInputRelease(keyPressed->code);
+            }
+
+            if (g_state.getState() == GameState::State::GAME) {
+                // Movement keys - these will set movement flags
+                if (isKeyPressed(sf::Keyboard::Key::A)) {
                     player.move(Player::moveType::LEFT);
                 }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+                else if (isKeyPressed(sf::Keyboard::Key::D)) {
                     player.move(Player::moveType::RIGHT);
                 }
+                else {
+                    // No horizontal keys pressed
+                    player.handleInputRelease(sf::Keyboard::Key::A);
+                    player.handleInputRelease(sf::Keyboard::Key::D);
+                }
 
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+                if (isKeyPressed(sf::Keyboard::Key::W) || isKeyPressed(sf::Keyboard::Key::Space)) {
                     player.move(Player::moveType::UP);
                 }
             }
         }
 
         player.update(deltaTime);
+        hitbox.check();
 
         // Set default background color
         window.clear(sf::Color(0x121212));
@@ -82,7 +101,7 @@ void Game::run() const {
         // Title menu life cycle start
         main_menu.start(window, delay);
 
-        if (GameState::getState() == GameState::State::GAME) {
+        if (g_state.getState() == GameState::State::GAME) {
             window.draw(player.getShape());
         }
 

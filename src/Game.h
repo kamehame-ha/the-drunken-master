@@ -8,7 +8,6 @@
 #include "utils/Wrapper.h"
 #include "utils/Text.h"
 #include "utils/Window.h"
-#include "Player.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
@@ -20,6 +19,7 @@
 #include "utils/GameState.h"
 #include "MainMenu.h"
 #include "Player.h"
+#include "Hitbox.h"
 
 class Game {
 private:
