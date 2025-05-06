@@ -15,7 +15,7 @@ private:
 
 public:
     Delay() : duration(0.0f), active(false) {
-        this->clock = sf::Clock();
+        clock = sf::Clock();
     };
 
     void start(const float seconds) {
