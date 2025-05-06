@@ -3,7 +3,7 @@
 //
 
 #include "Hitbox.h"
-#include "Player.h"
+#include "../Player.h"
 
 Hitbox::Hitbox(sf::RenderWindow &window, Player &player): window(&window) {
     this->window = &window;
