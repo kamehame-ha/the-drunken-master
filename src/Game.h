@@ -19,7 +19,7 @@
 #include "utils/GameState.h"
 #include "MainMenu.h"
 #include "Player.h"
-#include "Hitbox.h"
+#include "map_utils/Hitbox.h"
 
 class Game {
 private:
