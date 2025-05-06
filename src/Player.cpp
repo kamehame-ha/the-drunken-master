@@ -3,7 +3,6 @@
 //
 
 #include "Player.h"
-
 #include "Hitbox.h"
 #include "fmt/printf.h"
 
@@ -12,10 +11,12 @@ Player::Player(int hp, int ad, const std::string &name) {
     this->ad = ad;
     this->name = name;
 
-    moveSpeed = 300.f;  // Pixels per second
+    moveSpeed = 300.f; // Pixels per second
     velocityX = 0.f;
     velocityY = 0.f;
     gravity = 1000.f;
+
+    onGround = false;
 }
 
 auto Player::create() -> void {
@@ -24,8 +25,28 @@ auto Player::create() -> void {
     shape.setFillColor(sf::Color::White);
 }
 
-auto Player::getShape() -> sf::CircleShape {
+auto Player::isOnGround() -> bool {
+    return onGround;
+}
+
+auto Player::setOnGround(bool value) -> void {
+    onGround = value;
+}
+
+auto Player::setCanJump(bool value) -> void {
+    canJump = value;
+}
+
+auto Player::getCanJump() -> bool {
+    return canJump;
+}
+
+auto Player::getShape() -> sf::CircleShape& {
     return shape;
+}
+
+auto Player::setPosition(float x, float y) -> void {
+    shape.setPosition(sf::Vector2f(x, y));
 }
 
 auto Player::move(moveType type) -> void {
@@ -38,18 +59,21 @@ auto Player::move(moveType type) -> void {
 }
 
 auto Player::walkRight() -> void {
-    velocityX += moveSpeed * 5;  // Add acceleration
-    velocityX = std::min(velocityX, moveSpeed);  // Cap max speed
+    movingRight = true;
+    movingLeft = false;
 }
 
 auto Player::walkLeft() -> void {
-    velocityX -= moveSpeed * 5;  // Add acceleration
-    velocityX = std::max(velocityX, -moveSpeed);  // Cap max speed
+    movingLeft = true;
+    movingRight = false;
 }
 
 auto Player::jump() -> void {
-    velocityY = -600.f;
-    Hitbox::onGround = false;
+    if (canJump) {
+        velocityY = -600.f;
+        onGround = false;
+        canJump = false;  // Disable jumping until next ground touch
+    }
 }
 
 auto Player::dropdown() -> void {
@@ -58,32 +82,50 @@ auto Player::dropdown() -> void {
 
 auto Player::stopX() -> void {
     velocityX = 0.f;
+    movement.x = 0.f;
 }
 
 auto Player::stopY() -> void {
     velocityY = 0.f;
+    movement.y = 0.f;
 }
 
 
 // Add the update method:
+
 auto Player::update(float deltaTime) -> void {
-    if (!Hitbox::onGround) {
+    // Handle horizontal movement
+    updateHorizontalMovement(deltaTime);
+
+    // Apply gravity if not on ground
+    if (!onGround) {
         velocityY += gravity * deltaTime;
     }
 
-    // Apply friction when no input
-    if (velocityX > 0) {
-        velocityX = std::max(0.0f, velocityX - moveSpeed * 2 * deltaTime);
-    } else if (velocityX < 0) {
-        velocityX = std::min(0.0f, velocityX + moveSpeed * 2 * deltaTime);
-    }
-
-    movement = sf::Vector2f(velocityX * deltaTime, velocityY * deltaTime);
-
     // Update position
-    sf::Vector2f newPos = shape.getPosition();
-    newPos.x += velocityX * deltaTime;
-    newPos.y += velocityY * deltaTime;
-    shape.setPosition(newPos);
+    shape.move(sf::Vector2f(velocityX * deltaTime, velocityY * deltaTime));
+    movement = sf::Vector2f(velocityX * deltaTime, velocityY * deltaTime);
 }
 
+auto Player::updateHorizontalMovement(float deltaTime) -> void {
+    const float acceleration = onGround ? moveSpeed * 10 : moveSpeed * 5;
+
+    if (movingRight) {
+        velocityX = std::min(velocityX + acceleration * deltaTime, moveSpeed);
+    }
+    else if (movingLeft) {
+        velocityX = std::max(velocityX - acceleration * deltaTime, -moveSpeed);
+    }
+    else if (onGround) {
+        velocityX = 0; // Only stop instantly on ground
+    }
+}
+
+auto Player::handleInputRelease(sf::Keyboard::Key key) -> void {
+    if (key == sf::Keyboard::Key::A) {
+        movingLeft = false;
+    }
+    else if (key == sf::Keyboard::Key::D) {
+        movingRight = false;
+    }
+}
