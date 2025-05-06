@@ -35,8 +35,17 @@ add_executable(drunken-master main.cpp
         src/MainMenu.h
         src/Player.cpp
         src/Player.h
-        src/Hitbox.cpp
-        src/Hitbox.h
+        src/map_utils/Hitbox.cpp
+        src/map_utils/Hitbox.h
         src/utils/Delay.h
+        src/map_utils/Map.cpp
+        src/map_utils/Map.h
+        src/map_utils/Element.cpp
+        src/map_utils/Element.h
+        src/map_utils/Ground.h
+        src/map_utils/Platform.h
+        src/map_utils/Exit.h
+        src/map_utils/Box.h
+        src/map_utils/Spikes.h
 )
 target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
