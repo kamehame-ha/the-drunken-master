@@ -7,7 +7,6 @@
 MainMenu::MainMenu() {
     title_menu_texture_path = "../../assets/textures/drunken-master-game-art.png";
     title_menu_music_path = "../../assets/music/gooffy-ass-pokemon-theme.mp3";
-    once = true;
 }
 
 auto MainMenu::init() -> void {
