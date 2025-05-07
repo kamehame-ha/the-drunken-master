@@ -14,9 +14,14 @@ class Map {
 private:
     std::unordered_map<int, Element> map_content;
     sf::RenderWindow *window;
+    Player *player;
 
 public:
-    Map(sf::RenderWindow &window);
+    Map(sf::RenderWindow &window, Player &player);
+
+    auto getMapContent() -> std::unordered_map<int, Element>;
+
+    auto draw() -> void;
 };
 
 

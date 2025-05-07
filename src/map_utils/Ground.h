@@ -16,11 +16,13 @@ public:
     Ground();
 
     void create() {
+        const sf::RectangleShape r(sf::Vector2f(2000.0f, 50.0f));
+        this->shape.setFillColor(sf::Color(0x8c512c));
 
     }
 
     sf::RectangleShape& getShape() {
-
+        return shape;
     }
 };
 

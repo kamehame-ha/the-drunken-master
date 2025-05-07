@@ -21,6 +21,7 @@
 #include "Player.h"
 #include "map_utils/Hitbox.h"
 #include "map_utils/Element.h"
+#include "map_utils/Map.h"
 
 class Game {
 private:

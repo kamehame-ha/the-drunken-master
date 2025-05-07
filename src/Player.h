@@ -20,8 +20,10 @@ private:
     float gravity;
     bool onGround;
 
-    // Jump limitator
     bool canJump = true;
+
+    // hitbox needed value
+    bool onElement = false;
 
     auto walkLeft() -> void;
     auto walkRight() -> void;
@@ -62,6 +64,9 @@ public:
 
     auto setCanJump(bool value) -> void;
     auto getCanJump() -> bool;
+
+    auto setOnElement(bool value) -> void;
+    auto getOnElement() -> bool;
 };
 
 

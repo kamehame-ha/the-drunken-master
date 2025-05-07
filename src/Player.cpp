@@ -20,7 +20,7 @@ Player::Player(int hp, int ad, const std::string &name) {
 }
 
 auto Player::create() -> void {
-    const sf::CircleShape c(25.0f);
+    const sf::CircleShape c(30.0f);
     shape = c;
     shape.setFillColor(sf::Color::White);
 }
@@ -39,6 +39,14 @@ auto Player::setCanJump(bool value) -> void {
 
 auto Player::getCanJump() -> bool {
     return canJump;
+}
+
+auto Player::setOnElement(bool value) -> void {
+    onGround = value;
+}
+
+auto Player::getOnElement() -> bool {
+    return onElement;
 }
 
 auto Player::getShape() -> sf::CircleShape& {
@@ -82,12 +90,10 @@ auto Player::dropdown() -> void {
 
 auto Player::stopX() -> void {
     velocityX = 0.f;
-    movement.x = 0.f;
 }
 
 auto Player::stopY() -> void {
     velocityY = 0.f;
-    movement.y = 0.f;
 }
 
 
@@ -98,13 +104,12 @@ auto Player::update(float deltaTime) -> void {
     updateHorizontalMovement(deltaTime);
 
     // Apply gravity if not on ground
-    if (!onGround) {
+    if (!onGround || !onElement) {
         velocityY += gravity * deltaTime;
     }
 
     // Update position
     shape.move(sf::Vector2f(velocityX * deltaTime, velocityY * deltaTime));
-    movement = sf::Vector2f(velocityX * deltaTime, velocityY * deltaTime);
 }
 
 auto Player::updateHorizontalMovement(float deltaTime) -> void {

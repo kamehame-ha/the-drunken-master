@@ -12,7 +12,7 @@ Element::Element(sf::RenderWindow &window, Player &player): window(&window), pla
 }
 
 // Base version stops player from going through element
-auto Element::checkCollision() -> void {
+auto Element::checkCollision() -> bool {
     auto& shape = player->getShape();
     const float radius = shape.getRadius();
     sf::Vector2f position = shape.getPosition();
@@ -28,20 +28,12 @@ auto Element::checkCollision() -> void {
 
     hitbox_line = std::make_pair(element_position.x, element_size.x + element_position.x);
 
-    if (position.x > hitbox_line.first && position.x < hitbox_line.second) {
-        fmt::println("Player is in the hitbox line");
-        if ((position.y + (2 * radius)) < element_position.y) {
-            // Player is on top of the element
-            shape.setPosition(sf::Vector2f(position.x ,element_position.y - (2 * radius)));
-            player->setOnGround(true);
-            player->setCanJump(true);
-            player->stopY();
+    if (position.x + radius > hitbox_line.first && position.x - radius < hitbox_line.second) {
+        if (element.getGlobalBounds().findIntersection(shape.getGlobalBounds())) {
+            return true;
         }
-    }
-
-    // Left/right collision check
-
-    // Top/bottom collision check
+    } else return false;
+    return false;
 }
 
 auto Element::create() -> void {
@@ -53,4 +45,3 @@ auto Element::create() -> void {
 auto Element::getShape() -> sf::RectangleShape& {
     return shape;
 }
-

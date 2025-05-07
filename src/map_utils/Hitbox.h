@@ -15,11 +15,13 @@ private:
     sf::RenderWindow* window;
     Player* player;
 
+    auto check() const -> void;
+    auto check(Map &map) const -> void;
+
 public:
     explicit Hitbox(sf::RenderWindow &window, Player &player);
 
-    auto check() const -> void;
-    auto check(Map &map) const -> void;
+    auto resolveGlobalCollision(float deltaTime, Map &map) const -> void;
 };
 
 

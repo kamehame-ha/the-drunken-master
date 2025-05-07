@@ -22,7 +22,8 @@ private:
 public:
     Element(sf::RenderWindow &window, Player &player);
 
-    auto checkCollision() -> void;
+    auto checkCollision() -> bool;
+    auto resolveCollision() -> void;
 
     auto getShape() -> sf::RectangleShape&;
     auto create() -> void;

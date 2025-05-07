@@ -37,6 +37,8 @@ void Game::run() const {
 
     auto hitbox = Hitbox(window, player);
 
+    auto map = Map(window, player);
+
     sf::Image icon;
 
     if (!icon.loadFromFile("../../assets/textures/logo.png")) {
@@ -92,9 +94,6 @@ void Game::run() const {
             }
         }
 
-        player.update(deltaTime);
-        hitbox.check();
-
         // Set default background color
         window.clear(sf::Color(0x121212));
 
@@ -104,12 +103,8 @@ void Game::run() const {
         if (g_state.getState() == GameState::State::GAME) {
             window.draw(player.getShape());
 
-            Element el = Element(window, player);
-            el.create();
-
-            el.getShape().setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 + 250));
-            window.draw(el.getShape());
-            el.checkCollision();
+            map.draw();
+            hitbox.resolveGlobalCollision(deltaTime, map);
         }
 
         // Display
