@@ -55,8 +55,8 @@ auto Hitbox::check() const -> void {
 
 auto Hitbox::check(Map &map) const -> void {
     for (auto& [i, element] : map.getMapContent()) {
-        if (element.checkCollision()) {
-            auto el_shape = element.getShape();
+        if (element->checkCollision()) {
+            auto el_shape = element->getShape();
             auto pl_shape = player->getShape();
 
             player->stopY();

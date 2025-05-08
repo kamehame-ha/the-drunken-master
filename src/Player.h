@@ -66,7 +66,7 @@ public:
     auto getCanJump() -> bool;
 
     auto setOnElement(bool value) -> void;
-    auto getOnElement() -> bool;
+    auto getOnElement() const -> bool;
 };
 
 

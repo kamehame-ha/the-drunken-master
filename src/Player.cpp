@@ -42,10 +42,10 @@ auto Player::getCanJump() -> bool {
 }
 
 auto Player::setOnElement(bool value) -> void {
-    onGround = value;
+    onElement = value;
 }
 
-auto Player::getOnElement() -> bool {
+auto Player::getOnElement() const -> bool {
     return onElement;
 }
 
@@ -103,7 +103,7 @@ auto Player::update(float deltaTime) -> void {
     // Handle horizontal movement
     updateHorizontalMovement(deltaTime);
 
-    // Apply gravity if not on ground
+    // Apply gravity if not on ground or element
     if (!onGround || !onElement) {
         velocityY += gravity * deltaTime;
     }
@@ -113,7 +113,7 @@ auto Player::update(float deltaTime) -> void {
 }
 
 auto Player::updateHorizontalMovement(float deltaTime) -> void {
-    const float acceleration = onGround ? moveSpeed * 10 : moveSpeed * 5;
+    const float acceleration = onGround  ? moveSpeed * 10 : moveSpeed * 5;
 
     if (movingRight) {
         velocityX = std::min(velocityX + acceleration * deltaTime, moveSpeed);

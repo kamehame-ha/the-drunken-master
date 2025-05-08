@@ -20,13 +20,19 @@ private:
     sf::RectangleShape shape;
 
 public:
+    virtual ~Element() = default;
+
     Element(sf::RenderWindow &window, Player &player);
 
-    auto checkCollision() -> bool;
-    auto resolveCollision() -> void;
+    virtual auto checkCollision() -> bool;
 
-    auto getShape() -> sf::RectangleShape&;
-    auto create() -> void;
+    virtual auto getShape() -> sf::RectangleShape&;
+
+    virtual auto create() -> void;
+
+    virtual auto autoPlaceVirtualShape() -> void;
+
+    virtual auto getVirtualShape() -> sf::RectangleShape&;
 };
 
 

@@ -17,7 +17,7 @@ auto Element::checkCollision() -> bool {
     const float radius = shape.getRadius();
     sf::Vector2f position = shape.getPosition();
 
-    const auto element = this->shape;
+    const auto element = getShape();
     auto element_size = element.getSize();
     auto element_position = element.getPosition();
 
@@ -28,11 +28,12 @@ auto Element::checkCollision() -> bool {
 
     hitbox_line = std::make_pair(element_position.x, element_size.x + element_position.x);
 
-    if (position.x + radius > hitbox_line.first && position.x - radius < hitbox_line.second) {
+    if (position.x + radius > hitbox_line.first && position.x + radius < hitbox_line.second) {
         if (element.getGlobalBounds().findIntersection(shape.getGlobalBounds())) {
             return true;
         }
     } else return false;
+
     return false;
 }
 
@@ -43,5 +44,13 @@ auto Element::create() -> void {
 }
 
 auto Element::getShape() -> sf::RectangleShape& {
+    return shape;
+}
+
+auto Element::autoPlaceVirtualShape() -> void {
+    // Its here only to be here
+}
+
+auto Element::getVirtualShape() -> sf::RectangleShape& {
     return shape;
 }
