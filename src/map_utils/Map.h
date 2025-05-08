@@ -22,6 +22,7 @@ public:
     Map(sf::RenderWindow &window, Player &player);
 
     auto getMapContent() -> std::unordered_map<int, Element *>;
+    auto setMapContent(const std::unordered_map<int, Element *> &map_content);
 
     auto draw() -> void;
 };

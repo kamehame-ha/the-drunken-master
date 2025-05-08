@@ -29,6 +29,11 @@ auto Map::getMapContent() -> std::unordered_map<int, Element *> {
     return map_content;
 }
 
+auto Map::setMapContent(const std::unordered_map<int, Element *> &map_content) {
+    this->map_content = map_content;
+}
+
+
 auto Map::draw() -> void {
     for (auto& [i, element] : map_content) {
         if (dynamic_cast<Platform*>(element)) {
