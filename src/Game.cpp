@@ -95,7 +95,7 @@ void Game::run() const {
         }
 
         // Set default background color
-        window.clear(sf::Color(0x121212));
+        window.clear(sf::Color(18,18,18));
 
         // Title menu life cycle start
         main_menu.start(window, delay);
