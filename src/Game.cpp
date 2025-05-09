@@ -38,6 +38,7 @@ void Game::run() const {
     auto hitbox = Hitbox(window, player);
 
     auto map = Map(window, player);
+    map.generate(1,1);
 
     sf::Image icon;
 
