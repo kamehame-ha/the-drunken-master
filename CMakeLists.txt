@@ -31,10 +31,10 @@ add_executable(drunken-master main.cpp
         src/utils/Window.h
         src/utils/GameState.cpp
         src/utils/GameState.h
-        src/MainMenu.cpp
-        src/MainMenu.h
-        src/Player.cpp
-        src/Player.h
+        src/game_utils/MainMenu.cpp
+        src/game_utils/MainMenu.h
+        src/entity/Player.cpp
+        src/entity/Player.h
         src/map_utils/Hitbox.cpp
         src/map_utils/Hitbox.h
         src/utils/Delay.h
@@ -49,5 +49,6 @@ add_executable(drunken-master main.cpp
         src/map_utils/Spikes.h
         src/level_utils/LevelParser.cpp
         src/level_utils/LevelParser.h
+        src/map_utils/Start.h
 )
 target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
