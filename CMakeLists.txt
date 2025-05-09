@@ -47,5 +47,7 @@ add_executable(drunken-master main.cpp
         src/map_utils/Exit.h
         src/map_utils/Box.h
         src/map_utils/Spikes.h
+        src/level_utils/LevelParser.cpp
+        src/level_utils/LevelParser.h
 )
 target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
