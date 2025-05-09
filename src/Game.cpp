@@ -59,11 +59,6 @@ void Game::run() const {
 
     sf::Clock clock;
 
-    // Dev test of level parser
-    auto level_parser = LevelParser("level_1-1.txt");
-    LevelParser::LevelInfo info = level_parser.parse();
-    fmt::print("Level info:\nchapter = {}\nlevel = {}\nobjects = {}", info.chapter, info.level, info.objects.size());
-
     // Main while loop, centerpiece of program life
     while (window.isOpen()) {
         float deltaTime = clock.restart().asSeconds();
