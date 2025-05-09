@@ -22,7 +22,6 @@
 #include "map_utils/Hitbox.h"
 #include "map_utils/Element.h"
 #include "map_utils/Map.h"
-#include "level_utils/LevelGenerator.h"
 #include "level_utils/LevelParser.h"
 
 class Game {
