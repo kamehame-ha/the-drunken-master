@@ -102,9 +102,8 @@ void Game::run() const {
         main_menu.start(window, delay);
 
         if (g_state.getState() == GameState::State::GAME) {
-            window.draw(player.getShape());
-
             map.draw();
+            window.draw(player.getShape());
             hitbox.resolveGlobalCollision(deltaTime, map);
         }
 
