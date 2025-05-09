@@ -10,7 +10,11 @@
 #include <SFML/Graphics.hpp>
 #include "Ground.h"
 #include "Platform.h"
+#include "Start.h"
+#include "Exit.h"
+#include "Spikes.h"
 #include "../level_utils/LevelParser.h"
+#include <ranges>
 
 
 class Map {
@@ -18,6 +22,7 @@ private:
     std::unordered_map<int, Element*> map_content;
     sf::RenderWindow *window;
     Player *player;
+    bool level_started;
 
 public:
     Map(sf::RenderWindow &window, Player &player);
@@ -26,6 +31,9 @@ public:
 
     auto draw() -> void;
     auto generate(int chapter, int level) -> void;
+
+    auto start() -> void;
+    auto stop() -> void;
 };
 
 
