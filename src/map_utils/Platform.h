@@ -18,7 +18,7 @@ private:
     bool passthrough;
 
 public:
-    Platform(sf::RenderWindow &window, Player &player): Element(window, player), hitbox_shape() {
+    Platform(sf::RenderWindow &window, Player &player): Element(window, player) {
         this->window = &window;
         this->player = &player;
     };
