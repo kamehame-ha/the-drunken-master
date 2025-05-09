@@ -8,7 +8,7 @@ Drunken master is a platform game with turn based fighting, as a fan of retro ga
 - GameSave System
 - Really simple level creation/load system
 
-#### Level system explained
+### Level system explained
 Under `/levels` directory we have `.txt` files, those files are nothing more than instructions for map generator on what elements it should create and what properties they should have
 
 **Level file naming rules**
