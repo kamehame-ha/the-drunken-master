@@ -33,7 +33,6 @@ auto Element::checkCollision() -> bool {
             return true;
         }
     } else return false;
-
     return false;
 }
 
