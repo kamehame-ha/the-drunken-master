@@ -9,7 +9,6 @@
 
 class Platform : public Element {
 private:
-    sf::RectangleShape shape;
     sf::RenderWindow *window;
     // needed for custom player interactions
     Player *player;
@@ -19,7 +18,7 @@ private:
     bool passthrough;
 
 public:
-    Platform(sf::RenderWindow &window, Player &player): Element(window, player), shape(), hitbox_shape() {
+    Platform(sf::RenderWindow &window, Player &player): Element(window, player), hitbox_shape() {
         this->window = &window;
         this->player = &player;
     };
@@ -70,7 +69,7 @@ public:
     }
 
     sf::RectangleShape& getShape() override {
-        return this->shape;
+        return Element::getShape();
     }
 
     sf::RectangleShape& getVirtualShape() override {

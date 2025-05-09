@@ -10,7 +10,6 @@
 
 class Ground : public Element {
 private:
-    sf::RectangleShape shape;
     sf::RenderWindow *window;
     // needed for custom player interactions
     Player *player;
@@ -29,7 +28,7 @@ public:
     }
 
     sf::RectangleShape& getShape() override {
-        return this->shape;
+        return Element::getShape();
     }
 };
 
