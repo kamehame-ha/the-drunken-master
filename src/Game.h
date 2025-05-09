@@ -17,8 +17,8 @@
 #include <vector>
 #include <string>
 #include "utils/GameState.h"
-#include "MainMenu.h"
-#include "Player.h"
+#include "game_utils/MainMenu.h"
+#include "entity/Player.h"
 #include "map_utils/Hitbox.h"
 #include "map_utils/Element.h"
 #include "map_utils/Map.h"

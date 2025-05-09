@@ -3,7 +3,7 @@
 //
 
 #include "Hitbox.h"
-#include "../Player.h"
+#include "../entity/Player.h"
 #include "fmt/printf.h"
 
 Hitbox::Hitbox(sf::RenderWindow &window, Player &player): window(&window) {
@@ -56,14 +56,18 @@ auto Hitbox::check() const -> void {
 auto Hitbox::check(Map &map) const -> void {
     for (auto& [i, element] : map.getMapContent()) {
         if (element->checkCollision()) {
-            auto el_shape = element->getShape();
-            auto pl_shape = player->getShape();
+            if (dynamic_cast<Start*>(element)) {
+                fmt::println("Collision with start element");
+            } else {
+                auto el_shape = element->getShape();
+                auto pl_shape = player->getShape();
 
-            player->stopY();
-            player->setOnGround(true);
-            player->setCanJump(true);
-            player->setOnElement(true);
-            player->setPosition(pl_shape.getPosition().x, el_shape.getPosition().y - (2 * pl_shape.getRadius()));
+                player->stopY();
+                player->setOnGround(true);
+                player->setCanJump(true);
+                player->setOnElement(true);
+                player->setPosition(pl_shape.getPosition().x, el_shape.getPosition().y - (2 * pl_shape.getRadius()));
+            }
         } else {
             player->setOnElement(false);
         }
