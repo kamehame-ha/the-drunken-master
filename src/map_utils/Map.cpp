@@ -7,32 +7,11 @@
 Map::Map(sf::RenderWindow &window, Player &player): window(&window), player() {
     this->player = &player;
     this->window = &window;
-
-    // Create and initialize elements properly
-    Element* el = new Platform(window, player);
-    el->create();
-    el->getShape().setPosition(sf::Vector2f(window.getSize().x / 2 + 300, window.getSize().y / 2 + 260));
-
-    Element* el2 = new Platform(window, player);
-    el2->create();
-    el2->getShape().setPosition(sf::Vector2f(300, window.getSize().y / 2 + 200));
-
-    Element* ground = new Ground(window, player);
-    ground->create();
-
-    map_content.insert(std::pair(0, el));
-    map_content.insert(std::pair(1, ground));
-    map_content.insert(std::pair(2, el2));
 }
 
-auto Map::getMapContent() -> std::unordered_map<int, Element *> {
+auto Map::getMapContent() -> std::unordered_map<int, Element*> {
     return map_content;
 }
-
-auto Map::setMapContent(const std::unordered_map<int, Element *> &map_content) {
-    this->map_content = map_content;
-}
-
 
 auto Map::draw() -> void {
     for (auto& [i, element] : map_content) {
@@ -43,6 +22,52 @@ auto Map::draw() -> void {
         } else {
             window->draw(element->getShape());
         }
+    }
+}
+
+auto Map::generate(int chapter, int level) -> void {
+    auto info = LevelParser("level_" + std::to_string(chapter) + "_" + std::to_string(level) + ".txt").parse();
+    int i = 0;
+    for (auto& obj : info.objects) {
+        switch (obj.name) {
+            case "ground":
+                auto ground = new Ground(*window, *player);
+                ground->create();
+                auto g_shape = ground->getShape();
+
+                if (obj.size_y != 0.0f) {
+                    g_shape.setSize(sf::Vector2f(g_shape.getSize().x, obj.size_y));
+                }
+
+                map_content.insert(std::pair<int, Element*>(i, ground));
+                break;
+            case "platform":
+                auto* platform = new Platform(*window, *player);
+                platform->create();
+                auto p_shape = platform->getShape();
+
+                if (obj.position_x != 0.0f) {
+                    p_shape.setPosition(sf::Vector2f(obj.position_x, p_shape.getPosition().y));
+                }
+
+                if (obj.position_y != 0.0f) {
+                    p_shape.setPosition(sf::Vector2f(p_shape.getPosition().x, obj.position_y));
+                }
+
+                if (obj.size_x != 0.0f) {
+                    p_shape.setSize(sf::Vector2f(obj.size_x, p_shape.getSize().y));
+                }
+
+                if (obj.size_y != 0.0f) {
+                    p_shape.setSize(sf::Vector2f(p_shape.getSize().x, obj.size_y));
+                }
+
+                map_content.insert(std::pair<int, Element*>(i, platform));
+                break;
+
+            default: break;
+        }
+        i++;
     }
 }
 

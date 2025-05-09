@@ -10,6 +10,7 @@
 #include <SFML/Graphics.hpp>
 #include "Ground.h"
 #include "Platform.h"
+#include "../level_utils/LevelParser.h"
 
 
 class Map {
@@ -21,10 +22,10 @@ private:
 public:
     Map(sf::RenderWindow &window, Player &player);
 
-    auto getMapContent() -> std::unordered_map<int, Element *>;
-    auto setMapContent(const std::unordered_map<int, Element *> &map_content);
+    auto getMapContent() -> std::unordered_map<int, Element*>;
 
     auto draw() -> void;
+    auto generate(int chapter, int level) -> void;
 };
 
 
