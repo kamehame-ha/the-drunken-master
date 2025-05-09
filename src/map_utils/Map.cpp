@@ -7,6 +7,7 @@
 Map::Map(sf::RenderWindow &window, Player &player): window(&window), player() {
     this->player = &player;
     this->window = &window;
+    this->level_started = false;
 }
 
 auto Map::getMapContent() -> std::unordered_map<int, Element*> {
@@ -61,9 +62,40 @@ auto Map::generate(int chapter, int level) -> void {
             }
 
             map_content.insert(std::pair<int, Element*>(i, platform));
+        } else if (obj.name == "start") {
+            auto start = new Start(*window, *player);
+            start->create();
+            auto& s_shape = start->getShape();
+
+            if (obj.position_x != 0.0f) {
+                s_shape.setPosition(sf::Vector2f(obj.position_x, s_shape.getPosition().y));
+            }
+
+            if (obj.position_y != 0.0f) {
+                s_shape.setPosition(sf::Vector2f(s_shape.getPosition().x, obj.position_y));
+            }
+
+            map_content.insert(std::pair<int, Element*>(i, start));
         }
         i++;
     }
 }
+
+//
+// https://stackoverflow.com/questions/32780046/finding-an-element-in-map-by-its-value
+//
+
+auto Map::start() -> void {
+    if (!level_started) {
+        std::find_if(std::begin(map_content), std::end(map_content), [](auto& pair) {
+            return dynamic_cast<Start*>(pair.second);
+        });
+    }
+}
+
+auto Map::stop() -> void {
+
+}
+
 
 
