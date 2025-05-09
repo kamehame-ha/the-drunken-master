@@ -8,9 +8,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <string>
-#include "Game.h"
+#include "../Game.h"
 
-#include "utils/Delay.h"
+#include "../utils/Delay.h"
 
 
 class MainMenu {

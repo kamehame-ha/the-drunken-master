@@ -3,7 +3,7 @@
 //
 
 #include "Player.h"
-#include "map_utils/Hitbox.h"
+#include "../map_utils/Hitbox.h"
 #include "fmt/printf.h"
 
 Player::Player(int hp, int ad, const std::string &name) {
