@@ -31,7 +31,7 @@ public:
         std::vector<ObjectData> objects;
     };
 
-    LevelParser(const std::string& filename);
+    explicit LevelParser(const std::string& filename);
 
     auto parse() -> LevelInfo;
 
