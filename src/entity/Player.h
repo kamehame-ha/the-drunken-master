@@ -7,15 +7,18 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "../save_utils/GameSave.h"
 
 class Player {
 private:
     int hp = 0;
     int ad = 0;
+    int current_chapter = 0;
+    int current_level = 0;
     std::string name;
     int level = 0;
     sf::CircleShape shape;
-    float moveSpeed;
+    float move_speed;
 
     float gravity;
     bool onGround;
@@ -28,20 +31,19 @@ private:
     auto walkLeft() -> void;
     auto walkRight() -> void;
     auto jump() -> void;
-    auto dropdown() -> void;
 
     bool movingLeft = false;
     bool movingRight = false;
 
 public:
-    Player(int hp, int ad, const std::string &name);
+    Player(const GameSave::PlayerData& data);
 
     auto create() -> void;
     auto getShape() -> sf::CircleShape&;
 
     // Moving
     enum moveType {
-        UP, DOWN, LEFT, RIGHT
+        UP, LEFT, RIGHT
     };
 
     sf::Vector2f movement;
@@ -57,6 +59,8 @@ public:
     auto stopX() -> void;
     auto stopY() -> void;
 
+    auto trapDamage() -> void;
+
     auto setPosition(float x, float y) -> void;
 
     auto isOnGround() -> bool;
@@ -67,6 +71,15 @@ public:
 
     auto setOnElement(bool value) -> void;
     auto getOnElement() const -> bool;
+
+    auto getHp() -> int;
+    auto getAd() -> int;
+
+    auto getCurrentChapter() -> int;
+    auto getCurrentLevel() -> int;
+
+    auto setCurrentChapter(int value) -> void;
+    auto setCurrentLevel(int value) -> void;
 };
 
 

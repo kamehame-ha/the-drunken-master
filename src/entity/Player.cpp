@@ -6,12 +6,14 @@
 #include "../map_utils/Hitbox.h"
 #include "fmt/printf.h"
 
-Player::Player(int hp, int ad, const std::string &name) {
-    this->hp = hp;
-    this->ad = ad;
-    this->name = name;
-
-    moveSpeed = 300.f; // Pixels per second
+Player::Player(const GameSave::PlayerData& data) {
+    hp = data.hp;
+    ad = data.ad;
+    name = data.name;
+    current_chapter = data.current_chapter;
+    current_level = data.current_level;
+    move_speed = data.move_speed; // Pixels per second
+    
     velocityX = 0.f;
     velocityY = 0.f;
     gravity = 1000.f;
@@ -60,7 +62,6 @@ auto Player::setPosition(float x, float y) -> void {
 auto Player::move(moveType type) -> void {
     switch (type) {
         case LEFT: walkLeft(); break;
-        case DOWN: dropdown(); break;
         case RIGHT: walkRight(); break;
         case UP: jump(); break;
     }
@@ -84,8 +85,10 @@ auto Player::jump() -> void {
     }
 }
 
-auto Player::dropdown() -> void {
-
+auto Player::trapDamage() -> void {
+    velocityY = -300.0f;
+    onGround = false;
+    canJump = false;
 }
 
 auto Player::stopX() -> void {
@@ -113,13 +116,13 @@ auto Player::update(float deltaTime) -> void {
 }
 
 auto Player::updateHorizontalMovement(float deltaTime) -> void {
-    const float acceleration = onGround  ? moveSpeed * 10 : moveSpeed * 5;
+    const float acceleration = onGround  ? move_speed * 10 : move_speed * 5;
 
     if (movingRight) {
-        velocityX = std::min(velocityX + acceleration * deltaTime, moveSpeed);
+        velocityX = std::min(velocityX + acceleration * deltaTime, move_speed);
     }
     else if (movingLeft) {
-        velocityX = std::max(velocityX - acceleration * deltaTime, -moveSpeed);
+        velocityX = std::max(velocityX - acceleration * deltaTime, -move_speed);
     }
     else if (onGround) {
         velocityX = 0; // Only stop instantly on ground
@@ -133,4 +136,28 @@ auto Player::handleInputRelease(sf::Keyboard::Key key) -> void {
     else if (key == sf::Keyboard::Key::D) {
         movingRight = false;
     }
+}
+
+auto Player::getHp() -> int {
+    return hp;
+}
+
+auto Player::getAd() -> int {
+    return ad;
+}
+
+auto Player::getCurrentChapter() -> int {
+    return current_chapter;
+}
+
+auto Player::setCurrentChapter(int value) -> void {
+    current_chapter = value;
+}
+
+auto Player::getCurrentLevel() -> int {
+    return current_level;
+}
+
+auto Player::setCurrentLevel(int value) -> void {
+    current_level = value;
 }
