@@ -13,9 +13,6 @@ public:
         MAIN_MENU_SELECT,
         GAME
     };
-
-    explicit GameState(State state);
-
     auto static setState(State state) -> void;
     auto static getState() -> State;
 

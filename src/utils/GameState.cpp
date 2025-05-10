@@ -6,11 +6,6 @@
 
 GameState::State GameState::state;
 
-GameState::GameState(State state) {
-    GameState::state = state;
-}
-
-
 auto GameState::getState() -> State {
     return state;
 }
