@@ -24,10 +24,14 @@ auto Map::draw() -> void {
             window->draw(element->getShape());
         }
     }
+
+    auto interface = LevelInterface(window, player, level_info);
+    interface.show();
 }
 
 auto Map::generate(int chapter, int level) -> void {
     auto info = LevelParser("level_" + std::to_string(chapter) + "-" + std::to_string(level) + ".txt").parse();
+    level_info = info;
     int i = 0;
     for (auto& obj : info.objects) {
         if (obj.name == "ground") {
@@ -44,6 +48,7 @@ auto Map::generate(int chapter, int level) -> void {
             auto platform = new Platform(*window, *player);
             platform->create();
             auto& p_shape = platform->getShape();
+            auto& pv_shape = platform->getVirtualShape();
 
             if (obj.position_x != 0.0f) {
                 p_shape.setPosition(sf::Vector2f(obj.position_x, p_shape.getPosition().y));
@@ -55,11 +60,14 @@ auto Map::generate(int chapter, int level) -> void {
 
             if (obj.size_x != 0.0f) {
                 p_shape.setSize(sf::Vector2f(obj.size_x, p_shape.getSize().y));
+                pv_shape.setSize(sf::Vector2f(obj.size_x, pv_shape.getSize().y));
             }
 
             if (obj.size_y != 0.0f) {
                 p_shape.setSize(sf::Vector2f(p_shape.getSize().x, obj.size_y));
             }
+
+            platform->autoPlaceVirtualShape();
 
             map_content.insert(std::pair<int, Element*>(i, platform));
         } else if (obj.name == "start") {
@@ -87,14 +95,21 @@ auto Map::generate(int chapter, int level) -> void {
 
 auto Map::start() -> void {
     if (!level_started) {
-        std::find_if(std::begin(map_content), std::end(map_content), [](auto& pair) {
+        auto start = std::ranges::find_if(map_content, [](auto& pair) {
             return dynamic_cast<Start*>(pair.second);
         });
+
+        auto& shape = start->second->getShape();
+
+        player->setPosition(shape.getPosition().x, shape.getPosition().y);
+        level_started = true;
     }
 }
 
 auto Map::stop() -> void {
+    if (level_started) {
 
+    }
 }
 
 
