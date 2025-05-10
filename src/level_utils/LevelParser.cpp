@@ -46,11 +46,11 @@ auto LevelParser::parse_file_content() -> void {
 
     while (std::getline(file, line)) {
         line_num++;
-        line_parser(line, line_num);
+        line_parser(line);
     }
 }
 
-auto LevelParser::line_parser(const std::string &line, int line_num) -> void {
+auto LevelParser::line_parser(const std::string &line) -> void {
     std::string trimmed = trimmer(line);
     if (trimmed.empty()) return;
 
@@ -64,7 +64,7 @@ auto LevelParser::line_parser(const std::string &line, int line_num) -> void {
     std::string args_str = trimmer(trimmed.substr(separator + 2));
 
     std::vector<float> args;
-    argument_parser(args_str, line_num, args);
+    argument_parser(args_str, args);
 
     if (args.size() != 4) {
         fmt::print("Wrong number of arguments (expected 4): {}\n", args_str);
@@ -78,7 +78,7 @@ auto LevelParser::line_parser(const std::string &line, int line_num) -> void {
     info.objects.push_back(std::move(obj));
 }
 
-auto LevelParser::argument_parser(const std::string &args_str, int line_num, std::vector<float> &args) -> void {
+auto LevelParser::argument_parser(const std::string &args_str, std::vector<float> &args) -> void {
     std::stringstream ss(args_str);
     std::string token;
 
@@ -97,10 +97,10 @@ auto LevelParser::argument_parser(const std::string &args_str, int line_num, std
     }
 }
 
-auto LevelParser::trimmer(const std::string &s) -> std::string {
-    auto start = s.begin();
-    while (start != s.end() && std::isspace(*start)) start++;
-    auto end = s.end();
-    while (end != start && std::isspace(*(end-1))) end--;
+auto LevelParser::trimmer(const std::string &line) -> std::string {
+    auto start = line.begin();
+    while (start != line.end() && std::isspace(*start)) ++start;
+    auto end = line.end();
+    while (end != start && std::isspace(*(end-1))) --end;
     return {start, end};
 }

@@ -41,8 +41,8 @@ private:
 
     auto parse_filename() -> void;
     auto parse_file_content() -> void;
-    auto line_parser(const std::string& line, int line_num) -> void;
-    auto argument_parser(const std::string& args_str, int line_num, std::vector<float>& args) -> void;
+    auto line_parser(const std::string &line) -> void;
+    auto argument_parser(const std::string &args_str, std::vector<float> &args) -> void;
 
     static auto trimmer(const std::string& line) -> std::string;;
 };
