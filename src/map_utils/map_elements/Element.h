@@ -6,9 +6,7 @@
 #define ELEMENT_H
 
 #include <SFML/Graphics.hpp>
-#include "../entity/Player.h"
-
-
+#include "../../entity/Player.h"
 
 class Element {
 private:

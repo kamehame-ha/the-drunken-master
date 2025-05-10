@@ -15,7 +15,7 @@ private:
 
     sf::RectangleShape hitbox_shape;
 
-    bool passthrough;
+    bool passthrough{};
 
 public:
     Platform(sf::RenderWindow &window, Player &player): Element(window, player) {
@@ -27,10 +27,12 @@ public:
         Element::create();
         const sf::RectangleShape h(sf::Vector2f(150.0f, 0.5f));
         hitbox_shape = h;
-        hitbox_shape.setFillColor(sf::Color::Red);
+        hitbox_shape.setFillColor(sf::Color::Transparent);
 
         getShape().setSize(sf::Vector2f(150.0f, 25.0f));
         getShape().setFillColor(sf::Color(56,29,12));
+        getShape().setOutlineColor(sf::Color(40,20, 8));
+        getShape().setOutlineThickness(2.0f);
     }
 
     bool checkCollision() override {

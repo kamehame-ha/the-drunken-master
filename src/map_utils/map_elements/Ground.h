@@ -5,7 +5,6 @@
 #ifndef GROUND_H
 #define GROUND_H
 #include "Element.h"
-#include "fmt/printf.h"
 
 
 class Ground : public Element {
