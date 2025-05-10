@@ -23,14 +23,19 @@ void Game::run() const {
     Game();
 
     // Set gamestate to GAME for game logic testing
-    auto g_state = GameState(GameState::State::GAME);
+    GameState::setState(GameState::GAME);
 
     auto window = Window(sf::VideoMode(windowSize), "Drunken Master").create();
     window.setFramerateLimit(60);
 
     auto wrapper = Wrapper(window);
 
-    auto player = Player(100, 10, std::string("Player"));
+    auto name = std::string("test_player");
+    auto game_save = GameSave();
+    game_save.NewGame(name);
+    auto& player_data = game_save.Load(name);
+
+    auto player = Player(player_data);
     player.create();
     auto [x,y] = wrapper.center(player.getShape());
     player.getShape().setPosition(sf::Vector2f(x, y));
@@ -38,7 +43,8 @@ void Game::run() const {
     auto hitbox = Hitbox(window, player);
 
     auto map = Map(window, player);
-    map.generate(1,1);
+    map.generate(player_data.current_chapter, player_data.current_level);
+    map.start();
 
     sf::Image icon;
 
@@ -51,7 +57,7 @@ void Game::run() const {
     MainMenu main_menu;
     main_menu.init();
 
-    if (g_state.getState() == GameState::State::MAIN_MENU) {
+    if (GameState::getState() == GameState::State::MAIN_MENU) {
         main_menu.title_menu_music.play();
     }
 
@@ -75,7 +81,7 @@ void Game::run() const {
                 player.handleInputRelease(keyPressed->code);
             }
 
-            if (g_state.getState() == GameState::State::GAME) {
+            if (GameState::getState() == GameState::State::GAME) {
                 // Movement keys - these will set movement flags
                 if (isKeyPressed(sf::Keyboard::Key::A)) {
                     player.move(Player::moveType::LEFT);
@@ -99,9 +105,11 @@ void Game::run() const {
         window.clear(sf::Color(18,18,18));
 
         // Title menu life cycle start
-        main_menu.start(window, delay);
+        if (GameState::getState() == GameState::State::MAIN_MENU) {
+            main_menu.start(window, delay);
+        }
 
-        if (g_state.getState() == GameState::State::GAME) {
+        if (GameState::getState() == GameState::State::GAME) {
             map.draw();
             window.draw(player.getShape());
             hitbox.resolveGlobalCollision(deltaTime, map);

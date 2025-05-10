@@ -20,9 +20,10 @@
 #include "game_utils/MainMenu.h"
 #include "entity/Player.h"
 #include "map_utils/Hitbox.h"
-#include "map_utils/Element.h"
+#include "map_utils/map_elements/Element.h"
 #include "map_utils/Map.h"
 #include "level_utils/LevelParser.h"
+#include "save_utils/GameSave.h"
 
 class Game {
 private:
