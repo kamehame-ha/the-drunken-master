@@ -34,8 +34,8 @@ For some elements some values are not used, here's a cheat sheet
 
 | Element | Size X | Size Y | Position X | Position Y |
 | ------- | ----- | ----- | --------- | --------- |
-| **ground** | no | yes | no | no |
-| **platform** | yes | yes | yes | yes |
+| **ground** | ❌ | ✅ | ❌ | ❌ |
+| **platform** | ✅ | ✅ | ✅ | ✅ |
 
 ### Legal & license
 As im not a legal owner of some music/graphics i will put credits below
