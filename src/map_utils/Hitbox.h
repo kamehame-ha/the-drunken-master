@@ -17,6 +17,7 @@ private:
 
     auto check() const -> void;
     auto check(Map &map) const -> void;
+    auto resolveDefaultCollision(Player *player, Element *element) const -> void;
 
 public:
     explicit Hitbox(sf::RenderWindow &window, Player &player);

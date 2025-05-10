@@ -57,22 +57,27 @@ auto Hitbox::check(Map &map) const -> void {
     for (auto& [i, element] : map.getMapContent()) {
         if (element->checkCollision()) {
             if (dynamic_cast<Start*>(element)) {
-                fmt::println("Collision with start element");
+                // Currently there is not start logic but collision is disabled
             } else {
-                auto el_shape = element->getShape();
-                auto pl_shape = player->getShape();
-
-                player->stopY();
-                player->setOnGround(true);
-                player->setCanJump(true);
-                player->setOnElement(true);
-                player->setPosition(pl_shape.getPosition().x, el_shape.getPosition().y - (2 * pl_shape.getRadius()));
+                resolveDefaultCollision(player, element);
             }
         } else {
             player->setOnElement(false);
         }
     }
 }
+
+auto Hitbox::resolveDefaultCollision(Player *player, Element *element) const -> void {
+    auto el_shape = element->getShape();
+    auto pl_shape = player->getShape();
+
+    player->stopY();
+    player->setOnGround(true);
+    player->setCanJump(true);
+    player->setOnElement(true);
+    player->setPosition(pl_shape.getPosition().x, el_shape.getPosition().y - (2 * pl_shape.getRadius()));
+}
+
 
 auto Hitbox::resolveGlobalCollision(float deltaTime, Map &map) const -> void {
     player->update(deltaTime);
