@@ -40,15 +40,18 @@ add_executable(drunken-master main.cpp
         src/utils/Delay.h
         src/map_utils/Map.cpp
         src/map_utils/Map.h
-        src/map_utils/Element.cpp
-        src/map_utils/Element.h
-        src/map_utils/Ground.h
-        src/map_utils/Platform.h
-        src/map_utils/Exit.h
-        src/map_utils/Box.h
-        src/map_utils/Spikes.h
+        src/map_utils/map_elements/Element.cpp
+        src/map_utils/map_elements/Element.h
+        src/map_utils/map_elements/Ground.h
+        src/map_utils/map_elements/Platform.h
+        src/map_utils/map_elements/Exit.h
+        src/map_utils/map_elements/Box.h
+        src/map_utils/map_elements/Spikes.h
         src/level_utils/LevelParser.cpp
         src/level_utils/LevelParser.h
-        src/map_utils/Start.h
+        src/map_utils/map_elements/Start.h
+        src/level_utils/LevelInterface.h
+        src/save_utils/GameSave.cpp
+        src/save_utils/GameSave.h
 )
 target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
