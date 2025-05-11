@@ -30,10 +30,12 @@ void Game::run() const {
 
     auto wrapper = Wrapper(window);
 
-    auto name = std::string("test_player");
+    auto name = std::string("ViperFang661");
     auto game_save = GameSave();
-    game_save.NewGame(name);
-    auto& player_data = game_save.Load(name);
+
+    // game_save.newGame();
+
+    auto player_data = game_save.load(name);
 
     auto player = Player(player_data);
     player.create();
