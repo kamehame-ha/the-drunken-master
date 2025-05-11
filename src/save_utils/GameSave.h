@@ -11,6 +11,9 @@
 #include <fstream>
 #include <algorithm>
 #include <filesystem>
+#include <string>
+#include <cstdlib>
+#include "../game_utils/Dice.h"
 
 class GameSave {
 public:
@@ -27,12 +30,13 @@ public:
 
     GameSave();
 
-    auto Save(const PlayerData& data) -> void;
-    auto Load(const std::string& name) -> PlayerData&;
-    auto NewGame(std::string name) -> void;
+    auto save(const PlayerData& data) -> void;
+    auto load(const std::string& name) -> PlayerData&;
+    auto newGame() -> void;
 
 private:
     auto trimmer(const std::string& s) -> std::string;
+    auto nameGenerator() -> std::string;
     PlayerData player_data;
 };
 

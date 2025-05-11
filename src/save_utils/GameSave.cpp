@@ -6,7 +6,7 @@
 
 GameSave::GameSave() = default;
 
-auto GameSave::Save(const PlayerData& data) -> void {
+auto GameSave::save(const PlayerData& data) -> void {
     auto filename = data.name + ".txt";
 
     std::ofstream file(filename);
@@ -30,7 +30,7 @@ auto GameSave::Save(const PlayerData& data) -> void {
     file.close();
 }
 
-auto GameSave::Load(const std::string& name) -> PlayerData& {
+auto GameSave::load(const std::string& name) -> PlayerData& {
     auto data = &player_data;
 
     auto filename = "../../saves/" + name + ".txt";
@@ -95,7 +95,9 @@ auto GameSave::Load(const std::string& name) -> PlayerData& {
     return *data;
 }
 
-auto GameSave::NewGame(std::string name) -> void {
+auto GameSave::newGame() -> void {
+    player_data.name = nameGenerator();
+    auto name = player_data.name;
     namespace fs = std::filesystem;
     auto const path = fs::path("../../saves/" + name + ".txt");
 
@@ -121,6 +123,29 @@ auto GameSave::NewGame(std::string name) -> void {
 
         fmt::print("New save file {} created\n", name);
     }
+}
+
+auto GameSave::nameGenerator() -> std::string {
+    std::vector<std::string> prefixes = {
+        "Shadow", "Dark", "Mighty", "Epic", "Savage",
+        "Steel", "Iron", "Thunder", "Frost", "Blaze",
+        "Ghost", "Phantom", "Storm", "Night", "Wolf",
+        "Dragon", "Viper", "Titan", "Omega", "Alpha",
+        "Neon", "Cyber", "Rogue", "Warlord", "Inferno"
+    };
+
+    std::vector<std::string> suffixes = {
+        "Slayer", "Hunter", "Warrior", "Knight", "Assassin",
+        "Mage", "Wizard", "Reaper", "Guardian", "Destroyer",
+        "Bandit", "Raider", "Champion", "Legend", "Overlord",
+        "Viper", "Fang", "Blade", "Striker", "Crusher",
+        "Phoenix", "Titan", "Specter", "Warden", "Berserker"
+    };
+
+    int prefix_i = Dice(prefixes.size()).roll();
+    int suffix_i = Dice(suffixes.size()).roll();
+
+    return fmt::format("{}{}{}", prefixes[prefix_i], suffixes[suffix_i], Dice(1000).roll());
 }
 
 
