@@ -11,14 +11,8 @@
 
 class Player {
 private:
-    int hp = 0;
-    int ad = 0;
-    int current_chapter = 0;
-    int current_level = 0;
-    std::string name;
-    int level = 0;
+    GameSave::PlayerData *player_data;
     sf::CircleShape shape;
-    float move_speed;
 
     float gravity;
     bool onGround;
@@ -36,7 +30,7 @@ private:
     bool movingRight = false;
 
 public:
-    Player(const GameSave::PlayerData& data);
+    Player(GameSave::PlayerData &data);
 
     auto create() -> void;
     auto getShape() -> sf::CircleShape&;
@@ -72,14 +66,8 @@ public:
     auto setOnElement(bool value) -> void;
     auto getOnElement() const -> bool;
 
-    auto getHp() -> int;
-    auto getAd() -> int;
-
-    auto getCurrentChapter() -> int;
-    auto getCurrentLevel() -> int;
-
-    auto setCurrentChapter(int value) -> void;
-    auto setCurrentLevel(int value) -> void;
+    auto getPlayerData() -> GameSave::PlayerData&;
+    auto setPlayerData(GameSave::PlayerData* data) -> void;
 };
 
 
