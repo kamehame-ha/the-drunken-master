@@ -53,5 +53,6 @@ add_executable(drunken-master main.cpp
         src/level_utils/LevelInterface.h
         src/save_utils/GameSave.cpp
         src/save_utils/GameSave.h
+        src/game_utils/Dice.h
 )
 target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
