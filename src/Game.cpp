@@ -41,7 +41,7 @@ void Game::run() {
     main_menu.init();
 
     if (GameState::getState() == GameState::State::MAIN_MENU) {
-        main_menu.title_menu_music.play();
+        // main_menu.title_menu_music.play();
     }
 
     auto delay = Delay();
@@ -79,6 +79,7 @@ void Game::run() {
 
 
         if (GameState::getState() == GameState::State::GAME) {
+            main_menu.title_menu_music.stop();
             auto player_data = player->getPlayerData();
 
             if (player_data.current_level < 6) {
@@ -88,7 +89,7 @@ void Game::run() {
                 window.draw(player->getShape());
                 hitbox->resolveGlobalCollision(deltaTime, *map);
             } else {
-                // Fight
+                fmt::println("Fight!");
             }
         }
 

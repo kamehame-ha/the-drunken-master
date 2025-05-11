@@ -7,6 +7,7 @@
 Map::Map(sf::RenderWindow &window, Player &player): window(&window), player() {
     this->player = &player;
     this->window = &window;
+    level_started = false;
 }
 
 auto Map::getMapContent() -> std::unordered_map<int, Element*> {
@@ -83,6 +84,20 @@ auto Map::generate(int chapter, int level) -> void {
             }
 
             map_content.insert(std::pair<int, Element*>(i, start));
+        } else if (obj.name == "exit") {
+            auto exit = new Exit(*window, *player);
+            exit->create();
+            auto& e_shape = exit->getShape();
+
+            if (obj.position_x != 0.0f) {
+                e_shape.setPosition(sf::Vector2f(obj.position_x, e_shape.getPosition().y));
+            }
+
+            if (obj.position_y != 0.0f) {
+                e_shape.setPosition(sf::Vector2f(e_shape.getPosition().x, obj.position_y));
+            }
+
+            map_content.insert(std::pair<int, Element*>(i, exit));
         }
         i++;
     }
@@ -107,7 +122,11 @@ auto Map::start() -> void {
 
 auto Map::stop() -> void {
     if (level_started) {
-
+        window->clear(sf::Color(18,18,18));
+        auto& player_data = player->getPlayerData();
+        player_data.current_level++;
+        player->setPlayerData(&player_data);
+        level_started = false;
     }
 }
 

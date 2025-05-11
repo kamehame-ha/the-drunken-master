@@ -21,7 +21,7 @@ public:
     void create() override {
         Element::create();
         getShape().setFillColor(sf::Color::Green);
-        getShape().setSize(sf::Vector2f(60.0f, 60.0f));
+        getShape().setSize(sf::Vector2f(player->getShape().getRadius() * 2, player->getShape().getRadius() * 2));
     }
 };
 

@@ -70,10 +70,6 @@ public:
         return false;
     }
 
-    sf::RectangleShape& getShape() override {
-        return Element::getShape();
-    }
-
     sf::RectangleShape& getVirtualShape() override {
         return this->hitbox_shape;
     }

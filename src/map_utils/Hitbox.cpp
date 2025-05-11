@@ -57,7 +57,13 @@ auto Hitbox::check(Map &map) const -> void {
     for (auto& [i, element] : map.getMapContent()) {
         if (element->checkCollision()) {
             if (dynamic_cast<Start*>(element)) {
-                // Currently there is not start logic but collision is disabled
+                // Currently there is not start logic but collision is disabled that way
+            } else if (dynamic_cast<Exit*>(element)) {
+                auto el_shape = element->getShape();
+                auto pl_shape = player->getShape();
+                player->stopY();
+                player->setPosition(el_shape.getPosition().x, el_shape.getPosition().y);
+                map.stop();
             } else {
                 resolveDefaultCollision(player, element);
             }
@@ -67,7 +73,7 @@ auto Hitbox::check(Map &map) const -> void {
     }
 }
 
-auto Hitbox::resolveDefaultCollision(Player *player, Element *element) const -> void {
+auto Hitbox::resolveDefaultCollision(Player *player, Element *element) -> void {
     auto el_shape = element->getShape();
     auto pl_shape = player->getShape();
 

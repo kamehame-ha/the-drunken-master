@@ -25,10 +25,6 @@ public:
         getShape().setFillColor(sf::Color(107,54,21));
         getShape().setPosition(sf::Vector2f(0, window->getSize().y - getShape().getSize().y));
     }
-
-    sf::RectangleShape& getShape() override {
-        return Element::getShape();
-    }
 };
 
 
