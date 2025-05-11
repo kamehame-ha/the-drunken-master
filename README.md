@@ -80,4 +80,6 @@ As im not a legal owner of some music/graphics i will put credits below
 | ---------------------------------------------------- | --------------- |
 | Pokemon Fire/Red Sound Track (Modified with effects) | Me (for now)    |
 
+Also the project itself is a part of my semester grade
+
 Going back to a license game is completely **open-source** and **free to use/download/remix** as long as the link to this repo is present on wherever you're posting your remix
