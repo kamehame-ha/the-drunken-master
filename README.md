@@ -36,6 +36,7 @@ For some elements some values are not used, here's a cheat sheet
 | ------- | ----- | ----- | --------- | --------- |
 | **ground** | ❌ | ✅ | ❌ | ❌ |
 | **platform** | ✅ | ✅ | ✅ | ✅ |
+| **start** | ❌ | ❌ | ✅ | ✅ |
 
 ### Legal & license
 As im not a legal owner of some music/graphics i will put credits below
