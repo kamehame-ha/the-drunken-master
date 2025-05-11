@@ -7,7 +7,6 @@
 Map::Map(sf::RenderWindow &window, Player &player): window(&window), player() {
     this->player = &player;
     this->window = &window;
-    this->level_started = false;
 }
 
 auto Map::getMapContent() -> std::unordered_map<int, Element*> {

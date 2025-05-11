@@ -28,10 +28,16 @@
 class Game {
 private:
     sf::Vector2u windowSize;
+    //
+    // https://www.geeksforgeeks.org/smart-pointers-cpp/
+    //
+    std::unique_ptr<Map> map;
+    std::unique_ptr<Hitbox> hitbox;
+    std::unique_ptr<Player> player;
 
 public:
     Game();
-    auto run() const -> void;
+    auto run() -> void;
 };
 
 

@@ -3,7 +3,7 @@
 
 int main() {
     try {
-        const Game game;
+        Game game;
         game.run();
     } catch (...) {
         fmt::print(stderr, "Exception occurred\n");
