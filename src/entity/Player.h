@@ -11,7 +11,7 @@
 
 class Player {
 private:
-    GameSave::PlayerData *player_data;
+    GameSave::PlayerData &player_data;
     sf::CircleShape shape;
 
     float gravity;
@@ -67,7 +67,7 @@ public:
     auto getOnElement() const -> bool;
 
     auto getPlayerData() -> GameSave::PlayerData&;
-    auto setPlayerData(GameSave::PlayerData* data) -> void;
+    auto setPlayerData(GameSave::PlayerData& data) -> void;
 };
 
 

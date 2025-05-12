@@ -63,7 +63,7 @@ auto Hitbox::check(Map &map) const -> void {
                 auto pl_shape = player->getShape();
                 player->stopY();
                 player->setPosition(el_shape.getPosition().x, el_shape.getPosition().y);
-                map.stop();
+                map.setLevelStarted(false);
             } else {
                 resolveDefaultCollision(player, element);
             }

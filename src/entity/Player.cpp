@@ -6,8 +6,8 @@
 #include "../map_utils/Hitbox.h"
 #include "fmt/printf.h"
 
-Player::Player(GameSave::PlayerData &data) {
-    player_data = &data;
+Player::Player(GameSave::PlayerData &data): player_data(data) {
+    player_data = data;
     velocityX = 0.f;
     velocityY = 0.f;
     gravity = 1000.f;
@@ -110,13 +110,13 @@ auto Player::update(float deltaTime) -> void {
 }
 
 auto Player::updateHorizontalMovement(float deltaTime) -> void {
-    const float acceleration = onGround  ? player_data->move_speed * 10 : player_data->move_speed * 5;
+    const float acceleration = onGround  ? player_data.move_speed * 10 : player_data.move_speed * 5;
 
     if (movingRight) {
-        velocityX = std::min(velocityX + acceleration * deltaTime, player_data->move_speed);
+        velocityX = std::min(velocityX + acceleration * deltaTime, player_data.move_speed);
     }
     else if (movingLeft) {
-        velocityX = std::max(velocityX - acceleration * deltaTime, -player_data->move_speed);
+        velocityX = std::max(velocityX - acceleration * deltaTime, -player_data.move_speed);
     }
     else if (onGround) {
         velocityX = 0; // Only stop instantly on ground
@@ -132,10 +132,10 @@ auto Player::handleInputRelease(sf::Keyboard::Key key) -> void {
     }
 }
 
-auto Player::getPlayerData() -> GameSave::PlayerData & {
-    return *player_data;
+auto Player::getPlayerData() -> GameSave::PlayerData& {
+    return player_data;
 }
 
-auto Player::setPlayerData(GameSave::PlayerData* data) -> void {
+auto Player::setPlayerData(GameSave::PlayerData& data) -> void {
     player_data = data;
 }

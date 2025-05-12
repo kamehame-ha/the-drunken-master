@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include "map_elements/Element.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include "./map_elements/Ground.h"
 #include "./map_elements/Platform.h"
 #include "./map_elements/Start.h"
@@ -36,6 +37,9 @@ public:
 
     auto start() -> void;
     auto stop() -> void;
+
+    auto getLevelStarted() -> bool;
+    auto setLevelStarted(bool value) -> void;
 };
 
 

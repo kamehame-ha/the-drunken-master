@@ -120,15 +120,14 @@ auto Map::start() -> void {
     }
 }
 
-auto Map::stop() -> void {
-    if (level_started) {
-        window->clear(sf::Color(18,18,18));
-        auto& player_data = player->getPlayerData();
-        player_data.current_level++;
-        player->setPlayerData(&player_data);
-        level_started = false;
-    }
+auto Map::getLevelStarted() -> bool {
+    return level_started;
 }
+
+auto Map::setLevelStarted(bool value) -> void {
+    level_started = value;
+}
+
 
 
 

@@ -6,8 +6,8 @@
 
 GameSave::GameSave() = default;
 
-auto GameSave::save(const PlayerData& data) -> void {
-    auto filename = data.name + ".txt";
+auto GameSave::save(PlayerData& data) -> void {
+    auto filename = "../../saves/" + data.name + ".txt";
 
     std::ofstream file(filename);
     if (!file.is_open()) {
@@ -28,6 +28,7 @@ auto GameSave::save(const PlayerData& data) -> void {
     }
 
     file.close();
+    fmt::print("Saved {}\n", filename);
 }
 
 auto GameSave::load(const std::string& name) -> PlayerData& {

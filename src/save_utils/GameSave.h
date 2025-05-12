@@ -30,7 +30,7 @@ public:
 
     GameSave();
 
-    auto save(const PlayerData& data) -> void;
+    auto save(PlayerData& data) -> void;
     auto load(const std::string& name) -> PlayerData&;
     auto newGame() -> void;
 
