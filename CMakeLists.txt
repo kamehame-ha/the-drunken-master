@@ -54,5 +54,10 @@ add_executable(drunken-master main.cpp
         src/save_utils/GameSave.cpp
         src/save_utils/GameSave.h
         src/game_utils/Dice.h
+        src/fight_utils/FightInterface.h
+        src/fight_utils/Fight.cpp
+        src/fight_utils/Fight.h
+        src/entity/Enemy.cpp
+        src/entity/Enemy.h
 )
 target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
