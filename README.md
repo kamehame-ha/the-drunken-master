@@ -34,11 +34,13 @@ Before `->` separator name of the element is provided, after the separator are 4
 
 For some elements some values are not used, here's a cheat sheet
 
-| Element | Size X | Size Y | Position X | Position Y |
-| ------- | ----- | ----- | --------- | --------- |
-| **ground** | ❌ | ✅ | ❌ | ❌ |
-| **platform** | ✅ | ✅ | ✅ | ✅ |
-| **start** | ❌ | ❌ | ✅ | ✅ |
+| Element      | Size X | Size Y | Position X | Position Y | Additional info                                                                                                                             |
+|--------------|----| ----- | --------- | --------- |---------------------------------------------------------------------------------------------------------------------------------------------|
+| **ground**   | ❌  | ✅ | ❌ | ❌ | -                                                                                                                                           |
+| **platform** | ✅  | ✅ | ✅ | ✅ | -                                                                                                                                           |
+| **start**    | ❌  | ❌ | ✅ | ✅ | -                                                                                                                                           |
+| **exit**     | ❌  | ❌ | ✅ | ✅ | -                                                                                                                                           |
+| **spikes**   |  ✅  | ❌  |  ✅ | ✅  | In case of spikes size x in amount of spikes and should be fixed integer, spike texture is 50x50px, final object size will be `size_x * 50` |
 
 ---
 
