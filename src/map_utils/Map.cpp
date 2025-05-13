@@ -98,6 +98,25 @@ auto Map::generate(int chapter, int level) -> void {
             }
 
             map_content.insert(std::pair<int, Element*>(i, exit));
+        } else if (obj.name == "spikes") {
+            auto spikes = new Spikes(*window, *player);
+            spikes->create();
+            auto& s_shape = spikes->getShape();
+
+            if (obj.position_x != 0.0f) {
+                s_shape.setPosition(sf::Vector2f(obj.position_x, s_shape.getPosition().y));
+            }
+
+            if (obj.position_y != 0.0f) {
+                s_shape.setPosition(sf::Vector2f(s_shape.getPosition().x, obj.position_y));
+            }
+
+            if (obj.size_x != 0.0f) {
+                s_shape.setSize(sf::Vector2f(obj.size_x * 50, s_shape.getSize().y));
+                s_shape.setTextureRect(sf::IntRect({0,0}, {(int)obj.size_x * 50, 50}));
+            }
+
+            map_content.insert(std::pair<int, Element*>(i, spikes));
         }
         i++;
     }
