@@ -130,10 +130,12 @@ void Game::run() {
 
                     window.clear(sf::Color(18,18,18));
 
-                    // For some reason drawing something here throws an exception, clear function is not a prolem here
-                    // auto el = Platform(window, *player);
-                    // el.create();
-                    // window.draw(el.getShape());
+                    map->clearMapContent();
+
+                    // For some reason drawing something here throws an exception, clear function is not a problem here
+                    auto el = Platform(window, *player);
+                    el.create();
+                    window.draw(el.getShape());
                 }
             } else {
                 auto game_save = GameSave();

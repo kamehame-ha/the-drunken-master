@@ -5,4 +5,4 @@ name->ViperFang661
 exp_level->1
 exp->0
 current_chapter->1
-current_level->1
+current_level->6

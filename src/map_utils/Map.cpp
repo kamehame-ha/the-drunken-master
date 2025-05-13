@@ -147,6 +147,10 @@ auto Map::setLevelStarted(bool value) -> void {
     level_started = value;
 }
 
+auto Map::clearMapContent() -> void {
+
+}
+
 
 
 

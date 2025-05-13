@@ -31,6 +31,7 @@ public:
     Map(sf::RenderWindow &window, Player &player);
 
     auto getMapContent() -> std::unordered_map<int, Element*>;
+    auto clearMapContent() -> void;
 
     auto draw() -> void;
     auto generate(int chapter, int level) -> void;
