@@ -29,7 +29,7 @@ public:
     };
 
     GameSave();
-
+    
     auto save(PlayerData& data) -> void;
     auto load(const std::string& name) -> PlayerData&;
     auto newGame() -> void;
