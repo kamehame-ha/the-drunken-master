@@ -133,9 +133,6 @@ void Game::run() {
                     map->clearMapContent();
 
                     // For some reason drawing something here throws an exception, clear function is not a problem here
-                    auto el = Platform(window, *player);
-                    el.create();
-                    window.draw(el.getShape());
                 }
             } else {
                 auto game_save = GameSave();
