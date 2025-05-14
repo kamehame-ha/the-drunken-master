@@ -10,13 +10,13 @@ Map::Map(sf::RenderWindow &window, Player &player): window(&window), player() {
     level_started = false;
 }
 
-auto Map::getMapContent() -> std::unordered_map<int, Element*> {
+auto Map::getMapContent() -> std::unordered_map<int, std::unique_ptr<Element>>& {
     return map_content;
 }
 
 auto Map::draw() -> void {
     for (auto& [i, element] : map_content) {
-        if (dynamic_cast<Platform*>(element)) {
+        if (dynamic_cast<Platform*>(element.get())) {
             window->draw(element->getShape());
             element->autoPlaceVirtualShape();
             window->draw(element->getVirtualShape());
@@ -35,7 +35,7 @@ auto Map::generate(int chapter, int level) -> void {
     int i = 0;
     for (auto& obj : info.objects) {
         if (obj.name == "ground") {
-            auto ground = new Ground(*window, *player);
+            auto ground = std::make_unique<Ground>(*window, *player);
             ground->create();
             auto& g_shape = ground->getShape();
 
@@ -43,9 +43,9 @@ auto Map::generate(int chapter, int level) -> void {
                 g_shape.setSize(sf::Vector2f(g_shape.getSize().x, obj.size_y));
             }
 
-            map_content.insert(std::pair<int, Element*>(i, ground));
+            map_content.emplace(i, std::move(ground));
         } else if (obj.name == "platform") {
-            auto platform = new Platform(*window, *player);
+            auto platform = std::make_unique<Platform>(*window, *player);
             platform->create();
             auto& p_shape = platform->getShape();
             auto& pv_shape = platform->getVirtualShape();
@@ -69,9 +69,9 @@ auto Map::generate(int chapter, int level) -> void {
 
             platform->autoPlaceVirtualShape();
 
-            map_content.insert(std::pair<int, Element*>(i, platform));
+            map_content.emplace(i, std::move(platform));
         } else if (obj.name == "start") {
-            auto start = new Start(*window, *player);
+            auto start = std::make_unique<Start>(*window, *player);
             start->create();
             auto& s_shape = start->getShape();
 
@@ -83,9 +83,9 @@ auto Map::generate(int chapter, int level) -> void {
                 s_shape.setPosition(sf::Vector2f(s_shape.getPosition().x, obj.position_y));
             }
 
-            map_content.insert(std::pair<int, Element*>(i, start));
+            map_content.emplace(i, std::move(start));
         } else if (obj.name == "exit") {
-            auto exit = new Exit(*window, *player);
+            auto exit = std::make_unique<Exit>(*window, *player);
             exit->create();
             auto& e_shape = exit->getShape();
 
@@ -97,9 +97,9 @@ auto Map::generate(int chapter, int level) -> void {
                 e_shape.setPosition(sf::Vector2f(e_shape.getPosition().x, obj.position_y));
             }
 
-            map_content.insert(std::pair<int, Element*>(i, exit));
+            map_content.emplace(i, std::move(exit));
         } else if (obj.name == "spikes") {
-            auto spikes = new Spikes(*window, *player);
+            auto spikes = std::make_unique<Spikes>(*window, *player);
             spikes->create();
             auto& s_shape = spikes->getShape();
 
@@ -116,7 +116,7 @@ auto Map::generate(int chapter, int level) -> void {
                 s_shape.setTextureRect(sf::IntRect({0,0}, {(int)obj.size_x * 50, 50}));
             }
 
-            map_content.insert(std::pair<int, Element*>(i, spikes));
+            map_content.emplace(i, std::move(spikes));
         }
         i++;
     }
@@ -129,7 +129,7 @@ auto Map::generate(int chapter, int level) -> void {
 auto Map::start() -> void {
     if (!level_started) {
         auto start = std::ranges::find_if(map_content, [](auto& pair) {
-            return dynamic_cast<Start*>(pair.second);
+            return dynamic_cast<Start*>(pair.second.get());
         });
 
         auto& shape = start->second->getShape();
@@ -148,7 +148,7 @@ auto Map::setLevelStarted(bool value) -> void {
 }
 
 auto Map::clearMapContent() -> void {
-
+    map_content.clear();
 }
 
 

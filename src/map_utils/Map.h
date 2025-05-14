@@ -21,7 +21,7 @@
 
 class Map {
 private:
-    std::unordered_map<int, Element*> map_content;
+    std::unordered_map<int, std::unique_ptr<Element>> map_content;
     sf::RenderWindow *window;
     LevelParser::LevelInfo level_info;
     Player *player;
@@ -30,7 +30,7 @@ private:
 public:
     Map(sf::RenderWindow &window, Player &player);
 
-    auto getMapContent() -> std::unordered_map<int, Element*>;
+    auto getMapContent() -> std::unordered_map<int, std::unique_ptr<Element>>&;
     auto clearMapContent() -> void;
 
     auto draw() -> void;
