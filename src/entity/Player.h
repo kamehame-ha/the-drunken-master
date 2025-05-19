@@ -11,7 +11,7 @@
 
 class Player {
 private:
-    GameSave::PlayerData &player_data;
+    GameSave::PlayerData player_data;
     sf::CircleShape shape;
 
     float gravity;
@@ -30,7 +30,7 @@ private:
     bool movingRight = false;
 
 public:
-    Player(GameSave::PlayerData &data);
+    Player(const GameSave::PlayerData &data);
 
     auto create() -> void;
     auto getShape() -> sf::CircleShape&;
@@ -53,8 +53,6 @@ public:
     auto stopX() -> void;
     auto stopY() -> void;
 
-    auto trapDamage() -> void;
-
     auto setPosition(float x, float y) -> void;
 
     auto isOnGround() -> bool;
@@ -67,7 +65,7 @@ public:
     auto getOnElement() const -> bool;
 
     auto getPlayerData() -> GameSave::PlayerData&;
-    auto setPlayerData(GameSave::PlayerData& data) -> void;
+    auto setPlayerData(const GameSave::PlayerData& data) -> void;
 };
 
 

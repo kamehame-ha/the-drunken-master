@@ -19,8 +19,10 @@ class GameSave {
 public:
     struct PlayerData {
         int hp;
+        int max_hp;
         int ad;
         float move_speed;
+        int stamina;
         std::string name;
         int exp_level;
         int exp;
@@ -31,12 +33,12 @@ public:
     GameSave();
     
     auto save(PlayerData& data) -> void;
-    auto load(const std::string& name) -> PlayerData&;
-    auto newGame() -> void;
+    auto load(const std::string& name) -> PlayerData;
+    auto newGame(const std::string& name) -> void;
 
 private:
     auto trimmer(const std::string& s) -> std::string;
-    auto nameGenerator() -> std::string;
+    // auto nameGenerator() -> std::string;
     PlayerData player_data;
 };
 

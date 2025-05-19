@@ -1,30 +1,23 @@
-//
-// Created by kame on 4/25/25.
-//
-
 #ifndef HITBOX_H
 #define HITBOX_H
 
 #include <SFML/Graphics.hpp>
 #include "Map.h"
+#include "../entity/Player.h"
+#include "fmt/printf.h"
 
 class Player;
 
 class Hitbox {
 private:
-    sf::RenderWindow* window;
-    Player* player;
-
-    auto check() const -> void;
-    auto check(Map &map) const -> void;
-    static auto resolveDefaultCollision(Player *player, Element *element) -> void;
+    auto check(sf::RenderWindow& window, Player& player) const -> void;
+    auto check(Map &map, Player& player) const -> void;
+    static auto resolveDefaultCollision(Player &player, Element &element) -> void;
 
 public:
-    explicit Hitbox(sf::RenderWindow &window, Player &player);
+    Hitbox();
 
-    auto resolveGlobalCollision(float deltaTime, Map &map) const -> void;
+    auto resolveGlobalCollision(float deltaTime, Map &map, sf::RenderWindow& window, Player& player) const -> void;
 };
-
-
 
 #endif //HITBOX_H

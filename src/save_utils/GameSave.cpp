@@ -15,8 +15,10 @@ auto GameSave::save(PlayerData& data) -> void {
     }
 
     file << "hp->" << data.hp << "\n"
+         << "max_hp->" << data.max_hp << "\n"
          << "ad->" << data.ad << "\n"
          << "move_speed->" << data.move_speed << "\n"
+         << "stamina->" << data.stamina << "\n"
          << "name->" << data.name << "\n"
          << "exp_level->" << data.exp_level << "\n"
          << "exp->" << data.exp << "\n"
@@ -28,11 +30,11 @@ auto GameSave::save(PlayerData& data) -> void {
     }
 
     file.close();
-    fmt::print("Saved {}\n", filename);
+    fmt::print("Save {}\n", filename);
 }
 
-auto GameSave::load(const std::string& name) -> PlayerData& {
-    auto data = &player_data;
+auto GameSave::load(const std::string& name) -> PlayerData {
+    auto data = player_data;
 
     auto filename = "../../saves/" + name + ".txt";
 
@@ -42,7 +44,7 @@ auto GameSave::load(const std::string& name) -> PlayerData& {
     }
 
     std::vector<std::string> requiredKeys = {
-        "hp", "ad", "move_speed", "name",
+        "hp", "max_hp", "ad", "move_speed", "stamina", "name",
         "exp_level", "exp", "current_chapter", "current_level"
     };
 
@@ -72,14 +74,16 @@ auto GameSave::load(const std::string& name) -> PlayerData& {
         requiredKeys.erase(it);
 
         try {
-            if (key == "hp") data->hp = std::stoi(value);
-            else if (key == "ad") data->ad = std::stoi(value);
-            else if (key == "move_speed") data->move_speed = std::stof(value);
-            else if (key == "name") data->name = value;
-            else if (key == "exp_level") data->exp_level = std::stoi(value);
-            else if (key == "exp") data->exp = std::stoi(value);
-            else if (key == "current_chapter") data->current_chapter = std::stoi(value);
-            else if (key == "current_level") data->current_level = std::stoi(value);
+            if (key == "hp") data.hp = std::stoi(value);
+            else if (key == "max_hp") data.max_hp = std::stoi(value);
+            else if (key == "ad") data.ad = std::stoi(value);
+            else if (key == "move_speed") data.move_speed = std::stof(value);
+            else if (key == "stamina") data.stamina = std::stoi(value);
+            else if (key == "name") data.name = value;
+            else if (key == "exp_level") data.exp_level = std::stoi(value);
+            else if (key == "exp") data.exp = std::stoi(value);
+            else if (key == "current_chapter") data.current_chapter = std::stoi(value);
+            else if (key == "current_level") data.current_level = std::stoi(value);
         } catch (const std::exception& e) {
             fmt::print("Line {}: Invalid value for {} - {}\n", lineNum, key, e.what());
         }
@@ -91,14 +95,12 @@ auto GameSave::load(const std::string& name) -> PlayerData& {
         fmt::print("\n");
     }
 
-    fmt::print("Loaded {}\n", filename);
+    fmt::print("Load {}\n", filename);
     file.close();
-    return *data;
+    return data;
 }
 
-auto GameSave::newGame() -> void {
-    player_data.name = nameGenerator();
-    auto name = player_data.name;
+auto GameSave::newGame(const std::string &name) -> void {
     namespace fs = std::filesystem;
     auto const path = fs::path("../../saves/" + name + ".txt");
 
@@ -112,13 +114,15 @@ auto GameSave::newGame() -> void {
         }
 
         file << "hp->" << 100 << "\n"
-         << "ad->" << 10 << "\n"
-         << "move_speed->" << 300 << "\n"
-         << "name->" << name << "\n"
-         << "exp_level->" << 1 << "\n"
-         << "exp->" << 0 << "\n"
-         << "current_chapter->" << 1 << "\n"
-         << "current_level->" << 1 << "\n";
+             << "max_hp->" << 100 << "\n"
+             << "ad->" << 10 << "\n"
+             << "move_speed->" << 300 << "\n"
+             << "stamina->" << 100 << "\n"
+             << "name->" << name << "\n"
+             << "exp_level->" << 1 << "\n"
+             << "exp->" << 0 << "\n"
+             << "current_chapter->" << 1 << "\n"
+             << "current_level->" << 1 << "\n";
 
         file.close();
 
@@ -126,28 +130,28 @@ auto GameSave::newGame() -> void {
     }
 }
 
-auto GameSave::nameGenerator() -> std::string {
-    std::vector<std::string> prefixes = {
-        "Shadow", "Dark", "Mighty", "Epic", "Savage",
-        "Steel", "Iron", "Thunder", "Frost", "Blaze",
-        "Ghost", "Phantom", "Storm", "Night", "Wolf",
-        "Dragon", "Viper", "Titan", "Omega", "Alpha",
-        "Neon", "Cyber", "Rogue", "Warlord", "Inferno"
-    };
-
-    std::vector<std::string> suffixes = {
-        "Slayer", "Hunter", "Warrior", "Knight", "Assassin",
-        "Mage", "Wizard", "Reaper", "Guardian", "Destroyer",
-        "Bandit", "Raider", "Champion", "Legend", "Overlord",
-        "Viper", "Fang", "Blade", "Striker", "Crusher",
-        "Phoenix", "Titan", "Specter", "Warden", "Berserker"
-    };
-
-    int prefix_i = Dice(prefixes.size()).roll();
-    int suffix_i = Dice(suffixes.size()).roll();
-
-    return fmt::format("{}{}{}", prefixes[prefix_i], suffixes[suffix_i], Dice(1000).roll());
-}
+// auto GameSave::nameGenerator() -> std::string {
+//     std::vector<std::string> prefixes = {
+//         "Shadow", "Dark", "Mighty", "Epic", "Savage",
+//         "Steel", "Iron", "Thunder", "Frost", "Blaze",
+//         "Ghost", "Phantom", "Storm", "Night", "Wolf",
+//         "Dragon", "Viper", "Titan", "Omega", "Alpha",
+//         "Neon", "Cyber", "Rogue", "Warlord", "Inferno"
+//     };
+//
+//     std::vector<std::string> suffixes = {
+//         "Slayer", "Hunter", "Warrior", "Knight", "Assassin",
+//         "Mage", "Wizard", "Reaper", "Guardian", "Destroyer",
+//         "Bandit", "Raider", "Champion", "Legend", "Overlord",
+//         "Viper", "Fang", "Blade", "Striker", "Crusher",
+//         "Phoenix", "Titan", "Specter", "Warden", "Berserker"
+//     };
+//
+//     int prefix_i = Dice(prefixes.size()).roll();
+//     int suffix_i = Dice(suffixes.size()).roll();
+//
+//     return fmt::format("{}{}{}", prefixes[prefix_i], suffixes[suffix_i], Dice(1000).roll());
+// }
 
 
 auto GameSave::trimmer(const std::string& s) -> std::string {

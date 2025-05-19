@@ -8,13 +8,10 @@
 #include <SFML/Graphics.hpp>
 
 class Wrapper {
-private:
-    sf::RenderWindow* window;
-
 public:
-    explicit Wrapper(sf::RenderWindow &window);
+    explicit Wrapper();
 
-    auto center(auto item) -> std::pair<float, float>;
+    auto center(auto item, sf::RenderWindow &window) -> std::pair<float, float>;
 
     static auto bounds(auto item) -> sf::FloatRect;
 };

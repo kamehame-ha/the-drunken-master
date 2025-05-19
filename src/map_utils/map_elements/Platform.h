@@ -9,22 +9,15 @@
 
 class Platform : public Element {
 private:
-    sf::RenderWindow *window;
-    // needed for custom player interactions
-    Player *player;
-
     sf::RectangleShape hitbox_shape;
 
     bool passthrough{};
 
 public:
-    Platform(sf::RenderWindow &window, Player &player): Element(window, player) {
-        this->window = &window;
-        this->player = &player;
-    };
+    Platform() = default;
 
-    void create() override {
-        Element::create();
+    void create(Player &player, sf::RenderWindow &window) override {
+        Element::create(player, window);
         const sf::RectangleShape h(sf::Vector2f(150.0f, 0.5f));
         hitbox_shape = h;
         hitbox_shape.setFillColor(sf::Color::Transparent);
@@ -35,40 +28,40 @@ public:
         getShape().setOutlineThickness(2.0f);
     }
 
-    bool checkCollision() override {
-        auto& shape = player->getShape();
-        const float radius = shape.getRadius();
-        sf::Vector2f position = shape.getPosition();
-
-        const auto element = getVirtualShape();
-        auto element_size = element.getSize();
-        auto element_position = element.getPosition();
-
-        std::pair<float, float> hitbox_line;
-
-        // Element hitbox line
-        // by default if x > y, x is a hitbox line
-
-        hitbox_line = std::make_pair(element_position.x, element_size.x + element_position.x);
-
-        if (position.x + radius > hitbox_line.first && position.x + radius < hitbox_line.second) {
-            if (element_position.y > position.y + (radius * 2)) {
-                // Player is above platform
-                passthrough = false;
-            }
-
-            if (element_position.y < position.y) {
-                // Player is below platform
-                passthrough = true;
-            }
-
-            if (element.getGlobalBounds().findIntersection(shape.getGlobalBounds()) && !passthrough) {
-                return true;
-            }
-        } else return false;
-
-        return false;
-    }
+    // bool checkCollision(Player &player) override {
+    //     auto& shape = player.getShape();
+    //     const float radius = shape.getRadius();
+    //     sf::Vector2f position = shape.getPosition();
+    //
+    //     const auto element = getVirtualShape();
+    //     auto element_size = element.getSize();
+    //     auto element_position = element.getPosition();
+    //
+    //     std::pair<float, float> hitbox_line;
+    //
+    //     // Element hitbox line
+    //     // by default if x > y, x is a hitbox line
+    //
+    //     hitbox_line = std::make_pair(element_position.x, element_size.x + element_position.x);
+    //
+    //     if (position.x + radius > hitbox_line.first && position.x + radius < hitbox_line.second) {
+    //         if (element_position.y > position.y - (radius * 2)) {
+    //             // Player is above platform
+    //             passthrough = false;
+    //         }
+    //
+    //         if (element_position.y < position.y) {
+    //             // Player is below platform
+    //             passthrough = true;
+    //         }
+    //
+    //         if (element.getGlobalBounds().findIntersection(shape.getGlobalBounds()) && !passthrough) {
+    //             return true;
+    //         }
+    //     } else return false;
+    //
+    //     return false;
+    // }
 
     sf::RectangleShape& getVirtualShape() override {
         return this->hitbox_shape;

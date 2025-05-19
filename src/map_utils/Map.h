@@ -1,7 +1,3 @@
-//
-// Created by kame on 5/6/25.
-//
-
 #ifndef MAP_H
 #define MAP_H
 
@@ -18,31 +14,26 @@
 #include <ranges>
 #include "../level_utils/LevelInterface.h"
 
-
 class Map {
 private:
     std::unordered_map<int, std::unique_ptr<Element>> map_content;
-    sf::RenderWindow *window;
     LevelParser::LevelInfo level_info;
-    Player *player;
     bool level_started;
 
 public:
-    Map(sf::RenderWindow &window, Player &player);
+    Map();
 
     auto getMapContent() -> std::unordered_map<int, std::unique_ptr<Element>>&;
     auto clearMapContent() -> void;
 
-    auto draw() -> void;
-    auto generate(int chapter, int level) -> void;
+    auto draw(sf::RenderWindow& window, Player& player) -> void;
+    auto generate(int chapter, int level, sf::RenderWindow& window, Player& player) -> void;
 
-    auto start() -> void;
+    auto start(Player& player) -> void;
     auto stop() -> void;
 
     auto getLevelStarted() -> bool;
     auto setLevelStarted(bool value) -> void;
 };
-
-
 
 #endif //MAP_H

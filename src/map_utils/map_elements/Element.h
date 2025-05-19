@@ -10,23 +10,19 @@
 
 class Element {
 private:
-    sf::RenderWindow *window;
-    // needed for custom player interactions
-    Player *player;
-
     // default shape
     sf::RectangleShape shape;
 
 public:
     virtual ~Element() = default;
 
-    Element(sf::RenderWindow &window, Player &player);
+    Element();
 
-    virtual auto checkCollision() -> bool;
+    virtual auto checkCollision(Player &player) -> bool;
 
     virtual auto getShape() -> sf::RectangleShape&;
 
-    virtual auto create() -> void;
+    virtual auto create(Player &player, sf::RenderWindow &window) -> void;
 
     virtual auto autoPlaceVirtualShape() -> void;
 

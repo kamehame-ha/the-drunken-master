@@ -34,12 +34,12 @@ auto MainMenu::start(sf::RenderWindow &window, Delay &delay) -> void {
         GameState::setState(GameState::State::MAIN_MENU_SELECT);
     }
 
-    if (GameState::getState() == GameState::State::MAIN_MENU_SELECT) {
-        window.clear(sf::Color(0x121212));
-
-        // Main menu select logic
-
-        GameState::setState(GameState::State::GAME);
-    }
+    // if (GameState::getState() == GameState::State::MAIN_MENU_SELECT) {
+    //     window.clear(sf::Color(0x121212));
+    //
+    //     // Main menu select logic
+    //
+    //     GameState::setState(GameState::State::GAME);
+    // }
 }
 

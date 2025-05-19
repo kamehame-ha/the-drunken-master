@@ -8,20 +8,13 @@
 
 
 class Start : public Element {
-private:
-    sf::RenderWindow *window;
-    Player *player;
-
 public:
-    Start(sf::RenderWindow &window, Player &player) : Element(window, player) {
-        this->window = &window;
-        this->player = &player;
-    };
+    Start() = default;
 
-    void create() override {
-        Element::create();
-        getShape().setFillColor(sf::Color::Green);
-        getShape().setSize(sf::Vector2f(player->getShape().getRadius() * 2, player->getShape().getRadius() * 2));
+    void create(Player &player, sf::RenderWindow &window) override {
+        Element::create(player, window);
+        getShape().setFillColor(sf::Color::Transparent);
+        getShape().setSize(sf::Vector2f(player.getShape().getRadius() * 2, player.getShape().getRadius() * 2));
     }
 };
 

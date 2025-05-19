@@ -6,14 +6,11 @@
 
 #include "../../../cmake-build-debug/_deps/fmt-src/include/fmt/format.h"
 
-Element::Element(sf::RenderWindow &window, Player &player): window(&window), player() {
-    this->player = &player;
-    this->window = &window;
-}
+Element::Element() = default;
 
 // Base version stops player from going through element
-auto Element::checkCollision() -> bool {
-    auto& shape = player->getShape();
+auto Element::checkCollision(Player &player) -> bool {
+    auto& shape = player.getShape();
     const float radius = shape.getRadius();
     sf::Vector2f position = shape.getPosition();
 
@@ -36,7 +33,7 @@ auto Element::checkCollision() -> bool {
     return false;
 }
 
-auto Element::create() -> void {
+auto Element::create(Player &player, sf::RenderWindow &window) -> void {
     const sf::RectangleShape r(sf::Vector2f(250.0f, 50.0f));
     shape = r;
     shape.setFillColor(sf::Color::Green);

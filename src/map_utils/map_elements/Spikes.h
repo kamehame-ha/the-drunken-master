@@ -9,15 +9,10 @@
 
 class Spikes : public Element {
 private:
-    sf::RenderWindow* window;
-    Player *player;
     sf::Texture texture;
 
 public:
-    Spikes(sf::RenderWindow &window, Player &player): Element(window, player) {
-        this->window = &window;
-        this->player = &player;
-
+    Spikes() {
         if (!texture.loadFromFile("../../assets/textures/spike.png")) {
             fmt::print("Failed to load spike texture\n");
         }
@@ -25,15 +20,11 @@ public:
         texture.setSmooth(true);
     }
 
-    void create() override {
-        Element::create();
+    void create(Player &player, sf::RenderWindow &window) override {
+        Element::create(player, window);
         getShape().setSize(sf::Vector2f(150.0f, 50.0f));
         getShape().setFillColor(sf::Color(72,72,72));
         getShape().setTexture(&texture);
-    }
-
-    bool checkCollision() override {
-        return false;
     }
 };
 

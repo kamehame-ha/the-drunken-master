@@ -4,39 +4,37 @@
 
 #include "Map.h"
 
-Map::Map(sf::RenderWindow &window, Player &player): window(&window), player() {
-    this->player = &player;
-    this->window = &window;
+Map::Map(): level_info() {
     level_started = false;
 }
 
 auto Map::getMapContent() -> std::unordered_map<int, std::unique_ptr<Element>>& {
     return map_content;
 }
-
-auto Map::draw() -> void {
+auto Map::draw(sf::RenderWindow& window, Player& player) -> void {
     for (auto& [i, element] : map_content) {
         if (dynamic_cast<Platform*>(element.get())) {
-            window->draw(element->getShape());
+            window.draw(element->getShape());
             element->autoPlaceVirtualShape();
-            window->draw(element->getVirtualShape());
+            window.draw(element->getVirtualShape());
         } else {
-            window->draw(element->getShape());
+            window.draw(element->getShape());
         }
     }
 
-    auto interface = LevelInterface(window, player, level_info);
-    interface.show();
+    auto interface = LevelInterface();
+    interface.show(window, player, level_info);
 }
 
-auto Map::generate(int chapter, int level) -> void {
+auto Map::generate(int chapter, int level, sf::RenderWindow& window, Player& player) -> void {
+    clearMapContent();
     auto info = LevelParser("level_" + std::to_string(chapter) + "-" + std::to_string(level) + ".txt").parse();
     level_info = info;
     int i = 0;
     for (auto& obj : info.objects) {
         if (obj.name == "ground") {
-            auto ground = std::make_unique<Ground>(*window, *player);
-            ground->create();
+            auto ground = std::make_unique<Ground>();
+            ground->create(player, window);
             auto& g_shape = ground->getShape();
 
             if (obj.size_y != 0.0f) {
@@ -45,8 +43,8 @@ auto Map::generate(int chapter, int level) -> void {
 
             map_content.emplace(i, std::move(ground));
         } else if (obj.name == "platform") {
-            auto platform = std::make_unique<Platform>(*window, *player);
-            platform->create();
+            auto platform = std::make_unique<Platform>();
+            platform->create(player, window);
             auto& p_shape = platform->getShape();
             auto& pv_shape = platform->getVirtualShape();
 
@@ -71,8 +69,8 @@ auto Map::generate(int chapter, int level) -> void {
 
             map_content.emplace(i, std::move(platform));
         } else if (obj.name == "start") {
-            auto start = std::make_unique<Start>(*window, *player);
-            start->create();
+            auto start = std::make_unique<Start>();
+            start->create(player, window);
             auto& s_shape = start->getShape();
 
             if (obj.position_x != 0.0f) {
@@ -85,8 +83,8 @@ auto Map::generate(int chapter, int level) -> void {
 
             map_content.emplace(i, std::move(start));
         } else if (obj.name == "exit") {
-            auto exit = std::make_unique<Exit>(*window, *player);
-            exit->create();
+            auto exit = std::make_unique<Exit>();
+            exit->create(player, window);
             auto& e_shape = exit->getShape();
 
             if (obj.position_x != 0.0f) {
@@ -99,8 +97,8 @@ auto Map::generate(int chapter, int level) -> void {
 
             map_content.emplace(i, std::move(exit));
         } else if (obj.name == "spikes") {
-            auto spikes = std::make_unique<Spikes>(*window, *player);
-            spikes->create();
+            auto spikes = std::make_unique<Spikes>();
+            spikes->create(player, window);
             auto& s_shape = spikes->getShape();
 
             if (obj.position_x != 0.0f) {
@@ -126,15 +124,14 @@ auto Map::generate(int chapter, int level) -> void {
 // https://stackoverflow.com/questions/32780046/finding-an-element-in-map-by-its-value
 //
 
-auto Map::start() -> void {
+auto Map::start(Player& player) -> void {
     if (!level_started) {
         auto start = std::ranges::find_if(map_content, [](auto& pair) {
             return dynamic_cast<Start*>(pair.second.get());
         });
 
         auto& shape = start->second->getShape();
-
-        player->setPosition(shape.getPosition().x, shape.getPosition().y);
+        player.setPosition(shape.getPosition().x, shape.getPosition().y);
         level_started = true;
     }
 }

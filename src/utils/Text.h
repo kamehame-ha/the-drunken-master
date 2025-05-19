@@ -13,24 +13,22 @@
 
 class Text {
 private:
-    sf::RenderWindow* window;
     sf::Font font;
     std::string font_path;
     int text_size; // 24
     int gap; // 10
-    Wrapper wrapper;
 
-    auto center_even(std::vector<sf::Text> &vector) -> void;
-    auto center_not_even(std::vector<sf::Text> &vector) -> void;
+    // auto center_even(std::vector<sf::Text> &vector) -> void;
+    // auto center_not_even(std::vector<sf::Text> &vector) -> void;
 
 public:
-    explicit Text(sf::RenderWindow &window);
+    explicit Text();
 
-    auto renderText(const sf::Text &text) const -> void;
-    auto renderText(const std::vector<sf::Text> &vector) const -> void;
+    auto renderText(const sf::Text &text, sf::RenderWindow &window) const -> void;
+    auto renderText(const std::vector<sf::Text> &vector, sf::RenderWindow &window) const -> void;
     auto createText() -> sf::Text;
 
-    auto centerTextLines(std::vector<sf::Text> &vector) -> std::vector<sf::Text>;
+    // auto centerTextLines(std::vector<sf::Text> &vector) -> std::vector<sf::Text>;
 
     // Setters
     auto setFont(const sf::Font &font) -> void;

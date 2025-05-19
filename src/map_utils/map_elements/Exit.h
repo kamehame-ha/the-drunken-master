@@ -8,23 +8,14 @@
 
 
 class Exit : public Element {
-private:
-    sf::RenderWindow *window;
-    // needed for custom player interactions
-    Player *player;
-
-    sf::RectangleShape hitbox_shape;
 
 public:
-    Exit(sf::RenderWindow &window, Player &player): Element(window, player) {
-        this->window = &window;
-        this->player = &player;
-    }
+    Exit() = default;
 
-    void create() override {
-        Element::create();
+    void create(Player &player, sf::RenderWindow &window) override {
+        Element::create(player, window);
         getShape().setFillColor(sf::Color::Blue);
-        getShape().setSize(sf::Vector2f(player->getShape().getRadius() * 2, player->getShape().getRadius() * 2));
+        getShape().setSize(sf::Vector2f(player.getShape().getRadius() * 2, player.getShape().getRadius() * 2));
     }
 };
 

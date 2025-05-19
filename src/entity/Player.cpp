@@ -6,14 +6,17 @@
 #include "../map_utils/Hitbox.h"
 #include "fmt/printf.h"
 
-Player::Player(GameSave::PlayerData &data): player_data(data) {
+Player::Player(const GameSave::PlayerData &data): player_data(data) {
     player_data = data;
     velocityX = 0.f;
     velocityY = 0.f;
     gravity = 1000.f;
-
     onGround = false;
 }
+
+
+// General
+
 
 auto Player::create() -> void {
     const sf::CircleShape c(30.0f);
@@ -21,37 +24,22 @@ auto Player::create() -> void {
     shape.setFillColor(sf::Color::White);
 }
 
-auto Player::isOnGround() -> bool {
-    return onGround;
+auto Player::update(float deltaTime) -> void {
+    // Handle horizontal movement
+    updateHorizontalMovement(deltaTime);
+
+    // Apply gravity if not on ground or element
+    if (!onGround || !onElement) {
+        velocityY += gravity * deltaTime;
+    }
+
+    // Update position
+    shape.move(sf::Vector2f(velocityX * deltaTime, velocityY * deltaTime));
 }
 
-auto Player::setOnGround(bool value) -> void {
-    onGround = value;
-}
 
-auto Player::setCanJump(bool value) -> void {
-    canJump = value;
-}
+// Movement
 
-auto Player::getCanJump() -> bool {
-    return canJump;
-}
-
-auto Player::setOnElement(bool value) -> void {
-    onElement = value;
-}
-
-auto Player::getOnElement() const -> bool {
-    return onElement;
-}
-
-auto Player::getShape() -> sf::CircleShape& {
-    return shape;
-}
-
-auto Player::setPosition(float x, float y) -> void {
-    shape.setPosition(sf::Vector2f(x, y));
-}
 
 auto Player::move(moveType type) -> void {
     switch (type) {
@@ -79,34 +67,12 @@ auto Player::jump() -> void {
     }
 }
 
-auto Player::trapDamage() -> void {
-    velocityY = -300.0f;
-    onGround = false;
-    canJump = false;
-}
-
 auto Player::stopX() -> void {
     velocityX = 0.f;
 }
 
 auto Player::stopY() -> void {
     velocityY = 0.f;
-}
-
-
-// Add the update method:
-
-auto Player::update(float deltaTime) -> void {
-    // Handle horizontal movement
-    updateHorizontalMovement(deltaTime);
-
-    // Apply gravity if not on ground or element
-    if (!onGround || !onElement) {
-        velocityY += gravity * deltaTime;
-    }
-
-    // Update position
-    shape.move(sf::Vector2f(velocityX * deltaTime, velocityY * deltaTime));
 }
 
 auto Player::updateHorizontalMovement(float deltaTime) -> void {
@@ -132,10 +98,50 @@ auto Player::handleInputRelease(sf::Keyboard::Key key) -> void {
     }
 }
 
+
+// Getters
+
+
+auto Player::isOnGround() -> bool {
+    return onGround;
+}
+
+auto Player::getCanJump() -> bool {
+    return canJump;
+}
+
+auto Player::getOnElement() const -> bool {
+    return onElement;
+}
+
+auto Player::getShape() -> sf::CircleShape& {
+    return shape;
+}
+
 auto Player::getPlayerData() -> GameSave::PlayerData& {
     return player_data;
 }
 
-auto Player::setPlayerData(GameSave::PlayerData& data) -> void {
+
+// Setters
+
+
+auto Player::setOnGround(bool value) -> void {
+    onGround = value;
+}
+
+auto Player::setCanJump(bool value) -> void {
+    canJump = value;
+}
+
+auto Player::setOnElement(bool value) -> void {
+    onElement = value;
+}
+
+auto Player::setPosition(float x, float y) -> void {
+    shape.setPosition(sf::Vector2f(x, y));
+}
+
+auto Player::setPlayerData(const GameSave::PlayerData& data) -> void {
     player_data = data;
 }

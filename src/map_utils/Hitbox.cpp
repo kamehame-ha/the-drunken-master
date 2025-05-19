@@ -3,19 +3,15 @@
 //
 
 #include "Hitbox.h"
-#include "../entity/Player.h"
-#include "fmt/printf.h"
 
-Hitbox::Hitbox(sf::RenderWindow &window, Player &player): window(&window) {
-    this->window = &window;
-    this->player = &player;
-}
 
-auto Hitbox::check() const -> void {
-    const auto& shape = player->getShape();
+Hitbox::Hitbox() = default;
+
+auto Hitbox::check(sf::RenderWindow& window, Player& player) const -> void {
+    const auto& shape = player.getShape();
     const float radius = shape.getRadius();
     const sf::Vector2f position = shape.getPosition();
-    const sf::Vector2u w_size = window->getSize();
+    const sf::Vector2u w_size = window.getSize();
 
     // Calculate constrained position
     float newX = position.x;
@@ -25,71 +21,95 @@ auto Hitbox::check() const -> void {
     if (position.x < 0) {
         // Left
         newX = 0;
-        player->stopX();
+        player.stopX();
     }
     else if (position.x + (radius * 2) > w_size.x) {
         // Right
         newX = w_size.x - (radius * 2);
-        player->stopX();
+        player.stopX();
     }
 
     // Constrain Y position
     if (position.y < 0) {
         // Top
         newY = 0;
-        player->stopY();
+        player.stopY();
     }
     else if (position.y + (radius * 2) > w_size.y) {
         // Bottom
         newY = w_size.y - (radius * 2);
-        player->stopY();
-        player->setOnGround(true);
-        player->setCanJump(true);
+        player.stopY();
+        player.setOnGround(true);
+        player.setCanJump(true);
     }
 
     // Apply the constrained position if needed
     if (newX != position.x || newY != position.y) {
-        player->setPosition(newX, newY);
+        player.setPosition(newX, newY);
     }
 }
 
-auto Hitbox::check(Map &map) const -> void {
+auto Hitbox::check(Map &map, Player& player) const -> void {
     for (auto& [i, element] : map.getMapContent()) {
-        if (element->checkCollision()) {
+        if (element->checkCollision(player)) {
             if (dynamic_cast<Start*>(element.get())) {
-                // Currently there is not start logic but collision is disabled that way
+                // No logic, just disabled collision
             } else if (dynamic_cast<Exit*>(element.get())) {
                 auto el_shape = element->getShape();
-                auto pl_shape = player->getShape();
-                player->stopY();
-                player->setPosition(el_shape.getPosition().x, el_shape.getPosition().y);
+                auto pl_shape = player.getShape();
+                player.stopY();
+                player.setPosition(el_shape.getPosition().x, el_shape.getPosition().y);
                 map.setLevelStarted(false);
+            } else if (dynamic_cast<Spikes*>(element.get())) {
+                auto start = std::ranges::find_if(map.getMapContent(), [](auto& pair) {
+                    return dynamic_cast<Start*>(pair.second.get());
+                });
+
+                auto& shape = start->second->getShape();
+                player.setPosition(shape.getPosition().x, shape.getPosition().y);
+                auto& player_data = player.getPlayerData();
+                player_data.hp = player_data.hp - (20 + Dice(10).roll());
+
+                if (player_data.hp < 0) {
+                    player_data.hp = 0;
+                }
+
+                player.setPlayerData(player_data);
+
+                auto game_save = GameSave();
+                game_save.save(player.getPlayerData());
+
             } else {
-                resolveDefaultCollision(player, element.get());
+                resolveDefaultCollision(player, *element);
             }
         } else {
-            player->setOnElement(false);
+            player.setOnElement(false);
         }
     }
 }
 
-auto Hitbox::resolveDefaultCollision(Player *player, Element *element) -> void {
-    auto el_shape = element->getShape();
-    auto pl_shape = player->getShape();
+auto Hitbox::resolveDefaultCollision(Player &player, Element &element) -> void {
+    auto el_shape = element.getShape();
+    auto pl_shape = player.getShape();
 
-    player->stopY();
-    player->setOnGround(true);
-    player->setCanJump(true);
-    player->setOnElement(true);
-    player->setPosition(pl_shape.getPosition().x, el_shape.getPosition().y - (2 * pl_shape.getRadius()));
+    if (pl_shape.getPosition().y < el_shape.getPosition().y) {
+        player.stopY();
+        player.setOnGround(true);
+        player.setCanJump(true);
+        player.setOnElement(true);
+
+        player.setPosition(pl_shape.getPosition().x, el_shape.getPosition().y - (2 * pl_shape.getRadius()));
+    } else {
+        player.setPosition(pl_shape.getPosition().x, el_shape.getPosition().y + el_shape.getSize().y);
+    }
 }
 
 
-auto Hitbox::resolveGlobalCollision(float deltaTime, Map &map) const -> void {
-    player->update(deltaTime);
-    check();
-    player->update(deltaTime);
-    check(map);
+auto Hitbox::resolveGlobalCollision(float deltaTime, Map &map, sf::RenderWindow& window, Player& player) const -> void {
+    player.update(deltaTime);
+    check(window, player);
+    player.update(deltaTime);
+    check(map, player);
 }
 
 
