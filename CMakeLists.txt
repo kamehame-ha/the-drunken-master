@@ -30,8 +30,8 @@ add_executable(drunken-master main.cpp
         src/utils/Text.h
         src/utils/Window.cpp
         src/utils/Window.h
-        src/utils/GameState.cpp
-        src/utils/GameState.h
+        src/game_utils/GameState.cpp
+        src/game_utils/GameState.h
         src/game_utils/MainMenu.cpp
         src/game_utils/MainMenu.h
         src/entity/Player.cpp
@@ -46,7 +46,6 @@ add_executable(drunken-master main.cpp
         src/map_utils/map_elements/Ground.h
         src/map_utils/map_elements/Platform.h
         src/map_utils/map_elements/Exit.h
-        src/map_utils/map_elements/Box.h
         src/map_utils/map_elements/Spikes.h
         src/level_utils/LevelParser.cpp
         src/level_utils/LevelParser.h
@@ -58,7 +57,8 @@ add_executable(drunken-master main.cpp
         src/fight_utils/FightInterface.h
         src/fight_utils/Fight.cpp
         src/fight_utils/Fight.h
-        src/entity/Enemy.cpp
         src/entity/Enemy.h
+        src/fight_utils/FightState.cpp
+        src/fight_utils/FightState.h
 )
-target_link_libraries(drunken-master  PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
+target_link_libraries(drunken-master PRIVATE SFML::Graphics SFML::Audio SFML::System fmt)
