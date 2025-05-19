@@ -36,7 +36,7 @@ auto LevelParser::parse_filename() -> void {
 }
 
 auto LevelParser::parse_file_content() -> void {
-    std::ifstream file("../../levels/" + filename);
+    std::ifstream file("../../assets/levels/" + filename);
     if (!file.is_open()) {
         fmt::print("File could not be opened : {}\n", filename);
     }
