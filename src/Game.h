@@ -16,7 +16,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "utils/GameState.h"
+#include "game_utils/GameState.h"
 #include "game_utils/MainMenu.h"
 #include "entity/Player.h"
 #include "map_utils/Hitbox.h"
@@ -24,6 +24,9 @@
 #include "map_utils/Map.h"
 #include "level_utils/LevelParser.h"
 #include "save_utils/GameSave.h"
+#include "fight_utils/FightInterface.h"
+#include "fight_utils/FightState.h"
+#include "fight_utils/Fight.h"
 
 class Game {
 private:
@@ -34,10 +37,24 @@ private:
     std::unique_ptr<Map> map;
     std::unique_ptr<Hitbox> hitbox;
     std::unique_ptr<Player> player;
+    GameSave::PlayerData data;
+    Enemy::EnemyData enemy_data;
+
+    FightInterface fight_interface;
+
+    std::string name;
+    bool once;
+    bool load_before_fight;
+    bool save_typed_or_selected;
+    bool text_typed;
+    std::vector<std::string> save_files;
+
+    sf::Vector2f mouse_position;
+    bool mouse_pressed;
 
 public:
-    Game();
-    auto run() -> void;
+    Game() = default;
+    auto run() -> void;;
 };
 
 
